@@ -50,26 +50,6 @@ html
   font-size: 20px
   +rwd(768px)
     font-size: 16px
-
-section.main
-  margin: 5rem 0
-  +rwd(768px)
-    margin: 2rem 0
-
-.wrapper
-  max-width: 1180px
-  margin: auto
-  padding: 0 15px
-  box-sizing: border-box
-
-h2
-  font-size: 1.5rem
-  font-weight: 400
-
-p
-  font-size: 1rem
-  font-weight: 400
-  line-height: 1.2
 </style>
 
 <style lang="sass" scoped>

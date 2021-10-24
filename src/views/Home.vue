@@ -1,5 +1,44 @@
 <template lang="pug">
 .home-wrapper
+  section.banner
+    figure
+      img(src="@/assets/images/logo-country.svg")
+    .slogan-ch 百年傳承 40載起
+    .slogan-en Century Heritage, Successor Innovation
+    .timer
+      .timer-title 直播倒數
+      .timer-box
+        .timer-item
+          .number 05
+          .unit 天
+        .timer-item
+          .number 10
+          .unit 小時
+        .timer-item
+          .number 30
+          .unit 分鐘
+  section.intro
+    .title 活動亮點
+    .info
+      | 仙妮蕾德2021臺灣年會即將引爆
+      br
+      br
+      | 百年傳承 四十載起
+      br
+      | 新品上市 重磅登場
+      br
+      | 事業機會 不能錯過
+      br
+      br
+      | 仙妮蕾德首次舉辦線上大會
+      br
+      | 接棒 期待 不一樣的仙妮蕾德
+      br
+      br
+      | 凡買票、參加即可享只送不賣的超值好禮
+      br
+      | 誠摯邀您一同參與
+    .btn 前往購票
 
 </template>
 
@@ -37,3 +76,67 @@ export default {
   watch: {},
 };
 </script>
+
+<style lang="sass" scoped>
+@import "@/assets/sass/var.sass"
+
+.home-wrapper
+  section.banner
+    padding: 70px 0 50px
+    figure
+      width: 420px
+      margin: 0 auto 16px
+    .slogan-ch
+      font-size: 2.1rem
+      color: $green-001
+      letter-spacing: 2.1px
+      text-align: center
+    .slogan-en
+      font-size: 1.1rem
+      letter-spacing: 1.15px
+      color: $green-001
+      text-align: center
+    .timer
+      padding-top: 97px
+      .timer-title
+        font-size: 1.1rem
+        font-weight: bold
+        text-align: center
+      .timer-box
+        padding-top: 25px
+        text-align: center
+        .timer-item
+          margin: 0 20px
+          +dib
+          .number
+            font-size: 3.5rem
+            color: $red-001
+            +dib
+          .unit
+            padding-left: 20px
+            font-size: 1rem
+            color: $gray-003
+            +dib
+  section.intro
+    padding: 35px 0 75px
+    background-color: $gray-004
+    text-align: center
+    .title
+      font-size: 1.1rem
+      font-weight: bold
+    .info
+      padding: 25px 0 60px
+      color: $gray-003
+    .btn
+      padding: 15px 115px
+      font-size: 1.1rem
+      color: $red-001
+      border: 1px solid $red-001
+      border-radius: 32px
+      display: inline-block
+      cursor: pointer
+      transition: .3s
+      &:hover
+        color: #fff
+        background-color: $red-001
+</style>

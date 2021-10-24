@@ -13,13 +13,13 @@ export default {
   name: "Default",
   components: {
     Header,
-    Footer
+    Footer,
   },
   data() {
     return {};
   },
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -27,7 +27,11 @@ export default {
 @import "@/assets/sass/var.sass"
 
 .default-wrapper
-  width: 100%
+  max-width: 768px
+  padding-top: 100px
+  margin: auto
+  background-color: #fff
+  box-shadow: 0 0 10px #ccc
   .default-container
     width: 100%
   +rwd(768px)

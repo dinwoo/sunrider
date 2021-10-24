@@ -1,18 +1,39 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+.home-wrapper
+
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapState, mapActions } from "vuex";
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+  name: "Home",
+  components: {},
+  props: {},
+  mixins: [],
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState(["isLoading", "api"]),
+  },
+  created() {
+    this.getApiHandler();
+  },
+  mounted() {},
+  methods: {
+    ...mapActions(["getApi"]),
+    getApiHandler() {
+      Promise.all([this.getApi()])
+        .then(() => {
+          console.log("success");
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
+  },
+  watch: {},
+};
 </script>

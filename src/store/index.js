@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     isLoading: false,
     api: null,
+    lineData: {},
   },
   mutations: {
     SET_LOADING(state, value) {
@@ -15,6 +16,13 @@ export default new Vuex.Store({
     },
     SET_API(state, data) {
       state.api = data;
+    },
+    CHECK_LINE_LOGIN(state) {
+      window.liff.init({ liffId: "1656566788-pwjew0yR" }).then(() => {
+        window.liff.getProfile().then((profile) => {
+          state.lineData = profile;
+        });
+      });
     },
   },
   actions: {

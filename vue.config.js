@@ -10,6 +10,7 @@ module.exports = {
   runtimeCompiler: true,
   publicPath: "/sunrider/",
   devServer: {
+    disableHostCheck: true,
     /* https option */
     // open: process.platform === 'darwin',
     // host: '0.0.0.0',

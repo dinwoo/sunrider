@@ -28,7 +28,7 @@ export default {
 
 .default-wrapper
   max-width: 768px
-  padding-top: 100px
+  padding-top: 110px
   margin: auto
   background-color: #fff
   box-shadow: 0 0 10px #ccc

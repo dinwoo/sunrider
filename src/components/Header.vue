@@ -31,36 +31,25 @@ header
   .shopcart(:class="{'active':showShopCart}")
     .shopcart-box
       .warpper
-        .product-item(v-for="item in 1")
-          figure.product-pic
-            img(src="@/assets/images/product-ticket5.png")
-          .product-info
-            .title 早鳥套票優惠
-            .product-name 5張門票
-            .trash
-              include ../assets/icon/icon-trash.pug
-            .number-box
-              .number-btn.minus －
-              input(type="number")
-              .number-btn.plus ＋
-            .price NT$1,800
+        ShopcartItem.product-item(v-for="item in 2" :key="item")
         .calculate-box
           .container
             .title Total
             .sum-price NT$1,800
           .btn-box
             .btn.buy 繼續購買
-            .btn.checkout 馬上結帳
+            router-link.btn.checkout(:to="{name:'ShopPay'}") 馬上結帳
 
 
 </template>
 
 <script>
 import { mapState } from "vuex";
+import ShopcartItem from "@/components/ShopcartItem.vue";
 
 export default {
   name: "Header",
-  components: {},
+  components: { ShopcartItem },
   data() {
     return {
       showMenu: false,
@@ -105,6 +94,8 @@ header
       right: 40px
       transform: translateY(-50%)
       .icon
+        width: 35px
+        height: 35px
         fill: $gray-001
         cursor: pointer
         transition: .3s
@@ -152,7 +143,7 @@ header
         .arrow
           fill: $gray-003
   .shopcart
-    width: 600px
+    width: 610px
     height: 100vh
     position: absolute
     top: 0
@@ -164,7 +155,7 @@ header
       .shopcart-box
         right: 0
     .shopcart-box
-      width: 100%
+      width: 600px
       height: 100%
       padding: 110px 40px 0
       background-color: #fff
@@ -182,57 +173,8 @@ header
         box-sizing: border-box
         position: relative
         .product-item
-          display: flex
           & + .product-item
             margin-top: 45px
-          figure.product-pic
-            width: 150px
-          .product-info
-            width: calc( 100% - 150px )
-            padding-left: 30px
-            box-sizing: border-box
-            position: relative
-            .title,.product-name
-              font-size: 1rem
-              line-height: 25px
-              font-weight: bold
-            .trash
-              fill: $gray-003
-              position: absolute
-              top: 0
-              right: 0
-              cursor: pointer
-            .number-box
-              position: absolute
-              bottom: 0
-              left: 30px
-              .number-btn
-                width: 34px
-                font-size: 1rem
-                line-height: 34px
-                background-color: $gray-004
-                text-align: center
-                cursor: pointer
-                +dib
-                &.plus
-                  color: #fff
-                  background-color: $gray-003
-              input
-                width: 70px
-                font-size: 1rem
-                line-height: 34px
-                text-align: center
-                border: none
-                +dib
-                &:focus
-                  outline: none
-            .price
-              font-size: 1.1rem
-              line-height: 28px
-              font-weight: bold
-              position: absolute
-              bottom: 0
-              right: 0
         .calculate-box
           width: 100%
           padding-bottom: 40px

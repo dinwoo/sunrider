@@ -1,5 +1,5 @@
 <template lang="pug">
-.home-wrapper
+.product-wrapper
   section.banner
     figure
       img(src="@/assets/images/product-KV.jpg")
@@ -65,24 +65,12 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["isLoading", "api"]),
+    ...mapState(["isLoading"]),
   },
-  created() {
-    this.getApiHandler();
-  },
+  created() {},
   mounted() {},
   methods: {
-    ...mapActions(["getApi"]),
-    getApiHandler() {
-      Promise.all([this.getApi()])
-        .then(() => {
-          console.log("success");
-        })
-        .catch((e) => {
-          console.log(e);
-          console.log("fail");
-        });
-    },
+    ...mapActions([""]),
   },
   watch: {},
 };
@@ -91,7 +79,7 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/sass/var.sass"
 
-.home-wrapper
+.product-wrapper
   section.banner
     figure
       width: 100%

@@ -46,6 +46,9 @@ a
 	color: #000
 	text-decoration: none
 
+input:focus
+  outline: none
+
 html
   font-size: 20px
   +rwd(768px)

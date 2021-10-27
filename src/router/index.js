@@ -34,6 +34,24 @@ const routes = [
     meta: { title: "購票紀錄", layout: "DefaultLayout" },
     component: () => import("../views/Ticket.vue"),
   },
+  {
+    path: "/refund",
+    name: "Refund",
+    meta: { title: "退票頁面", layout: "DefaultLayout" },
+    component: () => import("../views/Refund.vue"),
+  },
+  {
+    path: "/refunded",
+    name: "Refunded",
+    meta: { title: "退票頁面", layout: "DefaultLayout" },
+    component: () => import("../views/Refunded.vue"),
+  },
+  {
+    path: "/live",
+    name: "Live",
+    meta: { title: "直播頁面", layout: "DefaultLayout" },
+    component: () => import("../views/Live.vue"),
+  },
 ];
 
 const router = new VueRouter({

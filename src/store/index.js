@@ -7,12 +7,20 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isLoading: false,
+    showMenu: false,
+    showShopCart: false,
     api: null,
     lineData: {},
   },
   mutations: {
     SET_LOADING(state, value) {
       state.isLoading = value;
+    },
+    SET_MENU(state, value) {
+      state.showMenu = value;
+    },
+    SET_SHOPCART(state, value) {
+      state.showShopCart = value;
     },
     SET_API(state, data) {
       state.api = data;

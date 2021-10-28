@@ -7,12 +7,12 @@ header
       .icon.memeber
         include ../assets/icon/icon-member.pug
       .icon(
-        @click="showShopCart=!showShopCart;showMenu=false;"
+        @click="setShopCartHandler()"
       )
         include ../assets/icon/icon-shopcart.pug
       .icon.ham(
         :class="{'active':showMenu}"
-        @click="showMenu=!showMenu;showShopCart=false;"
+        @click="setMenuHandler()"
       )
         include ../assets/icon/icon-menu.pug
   .menu(:class="{'active':showMenu}")
@@ -44,24 +44,34 @@ header
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import ShopcartItem from "@/components/ShopcartItem.vue";
 
 export default {
   name: "Header",
   components: { ShopcartItem },
   data() {
-    return {
-      showMenu: false,
-      showShopCart: false,
-    };
+    return {};
   },
   computed: {
-    ...mapState([]),
+    ...mapState(["showMenu", "showShopCart"]),
   },
   beforeDestroy() {},
   mounted() {},
-  methods: {},
+  methods: {
+    ...mapMutations({
+      setShopCart: "SET_SHOPCART",
+      setMenu: "SET_MENU",
+    }),
+    setShopCartHandler() {
+      this.setShopCart(!this.showShopCart);
+      this.setMenu(false);
+    },
+    setMenuHandler() {
+      this.setMenu(!this.showMenu);
+      this.setShopCart(false);
+    },
+  },
 };
 </script>
 

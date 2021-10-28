@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 export default {
@@ -19,7 +20,19 @@ export default {
     return {};
   },
   mounted() {},
-  methods: {},
+  methods: {
+    ...mapMutations({
+      setShopCart: "SET_SHOPCART",
+      setMenu: "SET_MENU",
+    }),
+  },
+  watch: {
+    "$route.name": function() {
+      window.scrollTo(0, 0);
+      this.setMenu(false);
+      this.setShopCart(false);
+    },
+  },
 };
 </script>
 

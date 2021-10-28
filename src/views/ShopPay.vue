@@ -116,44 +116,9 @@ export default {
       padding: 25px 40px
       text-align: center
       box-sizing: border-box
-      .input-row
-        display: block
-        margin-bottom: 15px
-        &.name
-          width: calc(100% - 230px)
-          +dib
-        .input-title
-          width: 110px
-          text-align: left
-          +dib
-          .red
-            font-size: 0.8rem
-            color: $red-002
-            +dib
-          p
-            font-size: 0.9rem
-            +dib
-        .input-style
-          width: calc(100% - 110px)
-          padding: 16px 15px
-          border: none
-          background-color: $gray-004
-          font-size: 0.9rem
-          line-height: 28px
-          border-radius: 5px
-          box-sizing: border-box
-          +dib
-          &:focus
-            outline: none
-        .check
-          width: calc(100% - 110px)
-          text-align: left
-          +dib
-          input
-            +dib
-          p
-            padding-left: 10px
-            +dib
+      .name
+        width: calc(100% - 230px)
+        +dib
       .gender-box
         width: 230px
         margin-bottom: 15px
@@ -200,29 +165,8 @@ export default {
             margin-top: 25px
       .member-form
         padding: 20px
-        .input-row
-          // margin-bottom: 15px
-          &.name
-            width: calc(100% - 130px)
-          .input-title
-            width: 80px
-            .red
-              // font-size: 0.8rem
-            p
-              // font-size: 0.9rem
-          .input-style
-            width: calc(100% - 80px)
-            padding: 16px 15px
-            // font-size: 0.9rem
-            // line-height: 28px
-          .check
-            width: calc(100% - 80px)
-            input
-            p
-              width: calc(100% - 15px)
-              // padding-left: 10px
-              box-sizing: border-box
-              vertical-align: top
+        .name
+          width: calc(100% - 130px)
         .gender-box
           width: 130px
           // margin-bottom: 15px

@@ -49,6 +49,63 @@ a
 input:focus
   outline: none
 
+
+.input-row
+  display: block
+  margin-bottom: 15px
+  .input-title
+    width: 110px
+    text-align: left
+    +dib
+    .red
+      font-size: 0.8rem
+      color: $red-002
+      +dib
+    p
+      font-size: 0.9rem
+      +dib
+  .input-style
+    width: calc(100% - 110px)
+    padding: 16px 15px
+    border: none
+    background-color: $gray-004
+    font-size: 0.9rem
+    line-height: 28px
+    border-radius: 5px
+    box-sizing: border-box
+    +dib
+    &:focus
+      outline: none
+  .check
+    width: calc(100% - 110px)
+    text-align: left
+    +dib
+    input
+      +dib
+    p
+      padding-left: 10px
+      +dib
+  +rwd(540px)
+    .input-title
+      width: 80px
+      .red
+        // font-size: 0.8rem
+      p
+        // font-size: 0.9rem
+    .input-style
+      width: calc(100% - 80px)
+      padding: 16px 15px
+      // font-size: 0.9rem
+      // line-height: 28px
+    .check
+      width: calc(100% - 80px)
+      input
+      p
+        width: calc(100% - 15px)
+        // padding-left: 10px
+        box-sizing: border-box
+        vertical-align: top
+
 html
   font-size: 20px
   +rwd(768px)

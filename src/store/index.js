@@ -9,6 +9,20 @@ export default new Vuex.Store({
     isLoading: false,
     showMenu: false,
     showShopCart: false,
+    shopCartData: [
+      {
+        title: "title1",
+        name: "name1",
+        num: 1,
+        price: "1,800",
+      },
+      {
+        title: "title2",
+        name: "name2",
+        num: 3,
+        price: "2,800",
+      },
+    ],
     api: null,
     lineData: {},
   },
@@ -21,6 +35,9 @@ export default new Vuex.Store({
     },
     SET_SHOPCART(state, value) {
       state.showShopCart = value;
+    },
+    SET_SHOPCART_DATA(state, value) {
+      state.shopCartData = value;
     },
     SET_API(state, data) {
       state.api = data;

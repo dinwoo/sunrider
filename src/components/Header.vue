@@ -31,7 +31,11 @@ header
   .shopcart(:class="{'active':showShopCart}")
     .shopcart-box
       .warpper
-        ShopcartItem.product-item(v-for="item in 2" :key="item")
+        ShopcartItem.product-item(
+          v-for="(item,index) in shopCartData"
+          :key="index"
+          :shopCartItem="item"
+        )
         .calculate-box
           .container
             .title Total
@@ -54,7 +58,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["showMenu", "showShopCart"]),
+    ...mapState(["showMenu", "showShopCart", "shopCartData"]),
   },
   beforeDestroy() {},
   mounted() {},

@@ -3,21 +3,24 @@
   figure.product-pic
     img(src="@/assets/images/product-ticket5.png")
   .product-info
-    .title 早鳥套票優惠
-    .product-name 5張門票
+    .title {{shopCartItem.title}}
+    .product-name {{shopCartItem.name}}
     .trash
       include ../assets/icon/icon-trash.pug
     .number-box
-      .number-btn.minus －
-      input(type="number")
-      .number-btn.plus ＋
-    .price NT$1,800
+      .number-btn.minus(@click="shopCartItem.num>0?shopCartItem.num--:shopCartItem.num") －
+      input(type="text" v-model.number="shopCartItem.num")
+      .number-btn.plus(@click="shopCartItem.num++") ＋
+    .price NT${{shopCartItem.price}}
 </template>
 
 <script>
 export default {
   name: "ShopcartItem",
   components: {},
+  props: {
+    shopCartItem: Object,
+  },
   data() {
     return {};
   },

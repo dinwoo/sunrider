@@ -6,7 +6,11 @@
         include ../assets/icon/icon-shopcart.pug
       p 我的購物車
     .shopcart-box
-      ShopcartItem.product-item(v-for="item in 2" :key="item")
+      ShopcartItem.product-item(
+        v-for="(item,index) in shopCartData"
+        :key="index"
+        :shopCartItem="item"
+      )
     .title
       .icon
         include ../assets/icon/icon-member.pug
@@ -62,7 +66,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["isLoading"]),
+    ...mapState(["isLoading", "shopCartData"]),
   },
   created() {},
   mounted() {},

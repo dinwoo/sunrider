@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 export default {
@@ -19,11 +19,20 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
+  computed: {
+    ...mapState(["shopCartData"]),
+  },
+  mounted() {
+    this.setShopCartData(JSON.parse(localStorage.getItem("shopCartData")));
+    window.onbeforeunload = () => {
+      localStorage.setItem("shopCartData", JSON.stringify(this.shopCartData));
+    };
+  },
   methods: {
     ...mapMutations({
       setShopCart: "SET_SHOPCART",
       setMenu: "SET_MENU",
+      setShopCartData: "SET_SHOPCART_DATA",
     }),
   },
   watch: {

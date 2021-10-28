@@ -34,7 +34,8 @@ export default {
   box-shadow: 0 0 10px #ccc
   .default-container
     width: 100%
-  +rwd(768px)
+  +rwd(540px)
+    padding-top: 64px
     .default-container
 
 article

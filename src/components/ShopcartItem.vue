@@ -45,6 +45,8 @@ export default {
       line-height: 25px
       font-weight: bold
     .trash
+      width: 25px
+      height: 25px
       fill: $gray-003
       position: absolute
       top: 0
@@ -81,4 +83,30 @@ export default {
       position: absolute
       bottom: 0
       right: 0
+  +rwd(540px)
+    figure.product-pic
+      width: 100px
+    .product-info
+      width: calc( 100% - 100px )
+      padding-left: 15px
+      .title,.product-name
+        // font-size: 1rem
+        // line-height: 25px
+        // font-weight: bold
+      .trash
+        width: 20px
+        height: 20px
+      .number-box
+        left: 15px
+        .number-btn
+          width: 24px
+          // font-size: 1rem
+          line-height: 24px
+        input
+          width: 40px
+          // font-size: 1rem
+          line-height: 24px
+      .price
+        font-size: 0.8rem
+        line-height: 28px
 </style>

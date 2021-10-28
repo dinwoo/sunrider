@@ -1,7 +1,7 @@
 <template lang="pug">
 header
   .main-header
-    .logo
+    router-link.logo(:to="{name:'Home'}")
       include ../assets/icon/logo-sunrider.pug
     .menu-box
       .icon.memeber
@@ -86,6 +86,7 @@ header
     position: relative
     z-index: 2
     .logo
+      display: block
       width: 270px
       fill: $red-001
     .menu-box
@@ -213,4 +214,47 @@ header
                 transition: .3s
                 &:hover
                   background-color: #C12032
+  +rwd(540px)
+    .main-header
+      padding: 20px
+      .logo
+        width: 170px
+      .menu-box
+        right: 20px
+        .icon
+          width: 25px
+          height: 25px
+          & + .icon
+            margin-left: 20px
+    .menu
+      .menu-item
+        padding: 20px
+        p
+          font-size: 1.1rem
+        .arrow
+          right: 20px
+    .shopcart
+      width: 90vw
+      .shopcart-box
+        width: calc( 90vw - 10px )
+        padding: 64px 20px 0
+        right: -100vw
+        .warpper
+          padding-top: 20px
+          padding-bottom: 140px
+          .product-item
+            & + .product-item
+              margin-top: 25px
+          .calculate-box
+            padding-bottom: 20px
+            .container
+              .title,.sum-price
+                padding: 10px 0
+                // font-size: 1.1rem
+            .btn-box
+              padding-top: 30px
+              .btn
+                width: 48%
+                line-height: 34px
+                border-radius: 17px
 </style>

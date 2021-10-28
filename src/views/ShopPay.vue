@@ -180,4 +180,58 @@ export default {
         &:hover
           color: #fff
           background-color: $red-001
+    +rwd(540px)
+      .title
+        padding: 10px 20px
+        .icon
+          width: 20px
+          height: 20px
+        p
+          // font-size: 1rem
+          // line-height: 28px
+        .remark
+          // font-size: 0.9rem
+          // line-height: 28px
+          right: 20px
+      .shopcart-box
+        padding: 20px
+        .product-item
+          & + .product-item
+            margin-top: 25px
+      .member-form
+        padding: 20px
+        .input-row
+          // margin-bottom: 15px
+          &.name
+            width: calc(100% - 130px)
+          .input-title
+            width: 80px
+            .red
+              // font-size: 0.8rem
+            p
+              // font-size: 0.9rem
+          .input-style
+            width: calc(100% - 80px)
+            padding: 16px 15px
+            // font-size: 0.9rem
+            // line-height: 28px
+          .check
+            width: calc(100% - 80px)
+            input
+            p
+              width: calc(100% - 15px)
+              // padding-left: 10px
+              box-sizing: border-box
+              vertical-align: top
+        .gender-box
+          width: 130px
+          // margin-bottom: 15px
+          .gender
+            input
+            p
+              // padding-left: 10px
+        .btn
+          padding: 15px 115px
+          margin: 30px 0
+          border-radius: 32px
 </style>

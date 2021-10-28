@@ -29,4 +29,11 @@ footer
     .link,p
       margin: 0 30px
       +dib
+  +rwd(540px)
+    padding: 15px 0
+    .copyright
+    .link-box
+      padding-top: 10px
+      .link,p
+        margin: 0 15px
 </style>

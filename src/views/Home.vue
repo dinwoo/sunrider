@@ -117,6 +117,30 @@ export default {
             font-size: 1rem
             color: $gray-003
             +dib
+    +rwd(540px)
+      padding: 35px 0 25px
+      figure
+        width: 300px
+        // margin: 0 auto 16px
+      .slogan-ch
+        // font-size: 2.1rem
+        // letter-spacing: 2.1px
+      .slogan-en
+        // font-size: 1.1rem
+        // letter-spacing: 1.15px
+      .timer
+        padding-top: 50px
+        .timer-title
+          // font-size: 1.1rem
+        .timer-box
+          padding-top: 15px
+          .timer-item
+            margin: 0 10px
+            .number
+              font-size: 2.5rem
+            .unit
+              padding-left: 10px
+              // font-size: 1rem
   section.intro
     padding: 35px 0 75px
     background-color: $gray-004

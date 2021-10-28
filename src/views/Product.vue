@@ -107,6 +107,15 @@ export default {
       line-height: 28px
       color: $gray-003
       text-indent: -0.8rem
+    +rwd(540px)
+      padding: 25px
+      .title
+      .highlight
+        margin-bottom: 30px
+      .list
+        // padding-left: 0.8rem
+        margin-bottom: 10px
+        // text-indent: -0.8rem
   section.remark
     padding: 35px 40px
     background-color: $gray-004
@@ -114,6 +123,8 @@ export default {
       font-size: 1rem
       line-height: 28px
       color: $gray-003
+    +rwd(540px)
+      padding: 20px
   section.product-box
     .product-item
       padding: 50px 0
@@ -175,4 +186,35 @@ export default {
           &:hover
             color: #fff
             background-color: $red-001
+    +rwd(540px)
+      .product-item
+        padding: 20px 0
+        .container
+          max-width: 325px
+          margin: auto
+          .title
+          .title,.product-name
+            font-size: 1.1rem
+            letter-spacing: 1.1px
+            line-height: 35px
+          figure.product-pic
+            margin: 15px 0
+          .number-box
+            .number-btn
+              width: 30px
+              font-size: 1rem
+              line-height: 30px
+            input
+              // width: 70px
+              // font-size: 1rem
+              line-height: 30px
+          .price
+            // font-size: 1.1rem
+            line-height: 30px
+          .add-cart
+            width: 315px
+            margin: 80px auto 0
+            font-size: 1.1rem
+            line-height: 54px
+            border-radius: 27px
 </style>

@@ -173,17 +173,86 @@ export default {
     width: 100%
     padding: 40px
     box-sizing: border-box
-    +clearfix
     p
+      width: calc(100% - 80px)
       font-size: 0.8rem
       line-height: 22px
       color: $red-001
-      float: left
+      +dib
     .btn
+      width: 80px
       font-size: 0.9rem
       line-height: 28px
       color: $blue-001
       text-decoration: underline
-      float: right
       cursor: pointer
+      text-align: right
+      +dib
+  +rwd(540px)
+    .title
+      padding: 10px 20px
+      .icon
+        width: 20px
+        height: 20px
+      p
+        // font-size: 1rem
+        // line-height: 28px
+    .info-box
+      padding: 20px
+      .info
+        &+ .info
+          margin-top: 10px
+        .info-label
+          width: 120px
+          // font-size: 1.1rem
+          // line-height: 28px
+        p
+          // font-size: 1.1rem
+          // line-height: 28px
+    .ticket-box
+      .tickets
+        padding: 20px
+        margin-top: 15px
+        .info
+          margin-bottom: 5px
+          // font-size: 1rem
+          // line-height: 28px
+        .ticket-set
+          margin-bottom: 20px
+          .name
+            // font-size: 1.1rem
+            // line-height: 28px
+          .price
+            // font-size: 1.1rem
+            // line-height: 28px
+        .ticket-item
+          // padding: 10px 15px
+          // margin-top: 10px
+          .ticket-info
+            width: calc(100% - 100px)
+            .num-title
+              margin-bottom: 5px
+              // font-size: 1rem
+              // line-height: 28px
+            .ticket-number
+              margin-bottom: 15px
+              // font-size: 1rem
+              // line-height: 28px
+            .ticket-user
+              // font-size: .9rem
+              // line-height: 28px
+          .btn
+            width: 100px
+            // font-size: 1.1rem
+            line-height: 40px
+    .cancel-ticket
+      padding: 20px
+      p
+        width: calc(100% - 60px)
+        // font-size: 0.8rem
+        // line-height: 22px
+      .btn
+        width: 60px
+        // font-size: 0.9rem
+        // line-height: 28px
 </style>

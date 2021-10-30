@@ -8,7 +8,7 @@ function resolve(dir) {
 
 module.exports = {
   runtimeCompiler: true,
-  publicPath: "/views/",
+  publicPath: "/sunrider/",
   devServer: {
     disableHostCheck: true,
     /* https option */

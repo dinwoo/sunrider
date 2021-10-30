@@ -3,6 +3,10 @@
 # 發生錯誤時執行終止指令
 set -e
 
+git checkout feature/github-deploy
+
+git rebase develop
+
 # 打包編譯
 npm run build
 

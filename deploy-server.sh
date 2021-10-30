@@ -3,9 +3,9 @@
 # 發生錯誤時執行終止指令
 set -e
 
-git checkout feature/server-deploy
+# git checkout feature/server-deploy
 
-git rebase develop
+# git rebase develop
 
 # 打包編譯
 npm run build

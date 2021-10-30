@@ -17,8 +17,9 @@
       figure.user-pic
         img(src="@/assets/images/user-pic.jpg")
       input.insert-txt(type="text" placeholder="新增留言")
+      .send-btn 送出
   .btn-box
-    .btn 逛逛SUNRIDER商品
+    .main-btn 逛逛SUNRIDER商品
 
 
 </template>
@@ -114,14 +115,26 @@ export default {
         overflow: hidden
         +dib
       input.insert-txt
-        width: calc( 100% - 80px )
+        width: calc( 100% - 250px )
         padding: 10px 0
-        margin-left: 20px
+        margin: 0 20px
         font-size: 0.9rem
         box-sizing: border-box
         border: none
         border-bottom: 1px solid $gray-003
         +dib
+      .send-btn
+        padding: 16px 56px
+        font-size: 0.9rem
+        color: $red-001
+        border: 1px solid $red-001
+        border-radius: 30px
+        cursor: pointer
+        transition: .3s
+        +dib
+        &:hover
+          color: #fff
+          background-color: $red-001
   .btn-box
     padding: 50px 0
     text-align: center
@@ -129,17 +142,55 @@ export default {
     background-size: cover
     background-repeat: no-repeat
     background-position: center center
-    .btn
-      padding: 15px 115px
-      margin: 30px 0
-      font-size: 1.1rem
-      color: $red-001
-      border: 1px solid $red-001
-      border-radius: 32px
-      display: inline-block
-      cursor: pointer
-      transition: .3s
-      &:hover
-        color: #fff
-        background-color: $red-001
+  +rwd(540px)
+    .remark
+      padding: 20px
+      p
+        width: calc(100% - 60px)
+        // font-size: 0.7rem
+        line-height: 18px
+      .btn
+        width: 60px
+        // font-size: 0.9rem
+        // line-height: 28px
+    .live-box
+      height: 270px
+    .chatroom
+      .title
+        padding: 20px
+        // font-size: 1.1rem
+        line-height: 20px
+      .chat-box
+        height: 400px
+        padding: 0px 20px
+        .chat-item
+          // padding: 5px 0
+          figure.user-pic
+            width: 40px
+            vertical-align: top
+          .user-info
+            width: calc( 100% - 40px )
+            padding-left: 10px
+            vertical-align: top
+            .name
+              // font-size: 0.8rem
+              // line-height: 28px
+            .chat
+              // font-size: 0.9rem
+              // line-height: 28px
+      .insert-box
+        padding: 20px
+        figure.user-pic
+          width: 40px
+        input.insert-txt
+          width: calc( 100% - 150px )
+          padding: 5px 0
+          margin: 0 10px
+          // font-size: 0.9rem
+        .send-btn
+          padding: 7px 28px
+          font-size: 1rem
+          border-radius: 20px
+    .btn-box
+      padding: 30px 0
 </style>

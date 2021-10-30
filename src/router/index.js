@@ -47,6 +47,18 @@ const routes = [
     component: () => import("../views/Refunded.vue"),
   },
   {
+    path: "/exchange",
+    name: "Exchange",
+    meta: { title: "票券兌換", layout: "DefaultLayout" },
+    component: () => import("../views/Exchange.vue"),
+  },
+  {
+    path: "/wait-live",
+    name: "WaitLive",
+    meta: { title: "直播頁面", layout: "DefaultLayout" },
+    component: () => import("../views/WaitLive.vue"),
+  },
+  {
     path: "/live",
     name: "Live",
     meta: { title: "直播頁面", layout: "DefaultLayout" },

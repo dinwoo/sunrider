@@ -60,4 +60,21 @@ export default {
     &:hover
       color: #fff
       background-color: $blue-001
+  +rwd(540px)
+    min-height: calc(100vh - 154.73px)
+    padding: 35px 0
+    figure.pic
+      width: 160px
+    .title
+      font-size: 1.2rem
+      // letter-spacing: 1.5px
+      // line-height: 25px
+    p
+      padding: 45px 0 25px
+      font-size: .8rem
+      // line-height: 28px
+    .btn
+      padding: 16px 40px
+      // font-size: 1.1rem
+      // border-radius: 33px
 </style>

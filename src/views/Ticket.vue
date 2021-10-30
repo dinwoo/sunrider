@@ -44,7 +44,7 @@
         .btn 已綁定
   .cancel-ticket
     p 線上直播大會當日至大會日前第7日內辦理退票者，業者得不予退票
-    .btn 申請退票
+    router-link.btn(:to="{name:'Refund'}") 申請退票
 </template>
 
 <script>

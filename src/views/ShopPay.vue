@@ -48,7 +48,7 @@
         .check
           input(type="checkbox")
           p 我已閱讀並同意購票說明及注意事項
-      router-link.btn(:to="{name:'Shopped'}") 前往付款
+      router-link.main-btn(:to="{name:'Shopped'}") 前往付款
       
 
 </template>
@@ -136,19 +136,6 @@ export default {
           p
             padding-left: 10px
             +dib
-      .btn
-        padding: 15px 115px
-        margin: 30px 0
-        font-size: 1.1rem
-        color: $red-001
-        border: 1px solid $red-001
-        border-radius: 32px
-        display: inline-block
-        cursor: pointer
-        transition: .3s
-        &:hover
-          color: #fff
-          background-color: $red-001
     +rwd(540px)
       .title
         padding: 10px 20px
@@ -178,8 +165,4 @@ export default {
             input
             p
               // padding-left: 10px
-        .btn
-          padding: 15px 115px
-          margin: 30px 0
-          border-radius: 32px
 </style>

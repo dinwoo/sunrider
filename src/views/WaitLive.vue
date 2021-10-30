@@ -17,29 +17,12 @@
         .timer-item
           .number 30
           .unit 分鐘
-  section.intro
-    .title 活動亮點
-    .info
-      | 仙妮蕾德2021臺灣年會即將引爆
+    .status 直播尚未開放入場
+    .remark
+      | 將於12/4下午2點開放入場
       br
-      br
-      | 百年傳承 四十載起
-      br
-      | 新品上市 重磅登場
-      br
-      | 事業機會 不能錯過
-      br
-      br
-      | 仙妮蕾德首次舉辦線上大會
-      br
-      | 接棒 期待 不一樣的仙妮蕾德
-      br
-      br
-      | 凡買票、參加即可享只送不賣的超值好禮
-      br
-      | 誠摯邀您一同參與
-    .main-btn 前往購票
-
+      | 點擊以下按鈕，即可進入觀看！
+    router-link.main-btn(:to="{name:'Live'}") 開始觀看
 </template>
 
 <script>
@@ -83,6 +66,7 @@ export default {
 .home-wrapper
   section.banner
     padding: 70px 0 50px
+    text-align: center
     figure
       width: 420px
       margin: 0 auto 16px
@@ -95,16 +79,13 @@ export default {
       font-size: 1.1rem
       letter-spacing: 1.15px
       color: $green-001
-      text-align: center
     .timer
       padding-top: 97px
       .timer-title
         font-size: 1.1rem
         font-weight: bold
-        text-align: center
       .timer-box
         padding-top: 25px
-        text-align: center
         .timer-item
           margin: 0 20px
           +dib
@@ -117,6 +98,15 @@ export default {
             font-size: 1rem
             color: $gray-003
             +dib
+    .status
+      font-size: 0.9rem
+      line-height: 28px
+      color: $red-001
+    .remark
+      margin-top: 50px
+      font-size: 1rem
+      line-height: 28px
+      color: $gray-003
     +rwd(540px)
       padding: 35px 0 25px
       figure

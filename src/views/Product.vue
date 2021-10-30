@@ -108,7 +108,7 @@ export default {
       color: $gray-003
       text-indent: -0.8rem
     +rwd(540px)
-      padding: 25px
+      padding: 20px
       .title
       .highlight
         margin-bottom: 30px

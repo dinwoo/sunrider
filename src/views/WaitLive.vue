@@ -39,22 +39,10 @@ export default {
   computed: {
     ...mapState(["isLoading", "api"]),
   },
-  created() {
-    this.getApiHandler();
-  },
+  created() {},
   mounted() {},
   methods: {
-    ...mapActions(["getApi"]),
-    getApiHandler() {
-      Promise.all([this.getApi()])
-        .then(() => {
-          console.log("success");
-        })
-        .catch((e) => {
-          console.log(e);
-          console.log("fail");
-        });
-    },
+    ...mapActions([""]),
   },
   watch: {},
 };

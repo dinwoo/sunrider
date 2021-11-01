@@ -54,16 +54,16 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["isLoading", "api"]),
+    ...mapState(["isLoading", "token"]),
   },
   created() {
-    this.getApiHandler();
+    this.getLoginTokenApi();
   },
   mounted() {},
   methods: {
-    ...mapActions(["getApi"]),
-    getApiHandler() {
-      Promise.all([this.getApi()])
+    ...mapActions(["getLoginToken"]),
+    getLoginTokenApi() {
+      Promise.all([this.getLoginToken()])
         .then(() => {
           console.log("success");
         })

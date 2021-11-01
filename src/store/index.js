@@ -6,6 +6,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    token: "",
+    lineId: "test_lineId",
+    displayName: "",
+    profilePicUrl: "",
     isLoading: false,
     showMenu: false,
     showShopCart: false,
@@ -23,7 +27,6 @@ export default new Vuex.Store({
         price: "2,800",
       },
     ],
-    api: null,
     lineData: {},
   },
   mutations: {
@@ -39,8 +42,9 @@ export default new Vuex.Store({
     SET_SHOPCART_DATA(state, value) {
       state.shopCartData = value;
     },
-    SET_API(state, data) {
-      state.api = data;
+    SET_TOKEN(state, data) {
+      window.localStorage.setItem("id_token", data.token);
+      state.token = data.token;
     },
     CHECK_LINE_LOGIN(state) {
       window.liff.init({ liffId: "1656566788-pwjew0yR" }).then(() => {
@@ -51,14 +55,38 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getApi(context) {
+    getLoginToken(context) {
       context.commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        ApiService.get("api", "", {})
+        ApiService.post("user/verification/login", {
+          lineId: this.state.lineId,
+          name: this.state.displayName,
+          profilePicUrl: this.state.profilePicUrl,
+        })
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
-            if (data.code == 200) {
-              context.commit("SET_API", data.data);
+            if (data.code == "success") {
+              context.commit("SET_TOKEN", data.item);
+              resolve();
+            } else {
+              alert(data.msg);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    getProduct(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.get("product", "", { p: 1 })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.code == "success") {
+              // context.commit("SET_TOKEN", data.item);
               resolve();
             } else {
               alert(data.msg);

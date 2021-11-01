@@ -57,7 +57,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
-  name: "Home",
+  name: "Product",
   components: {},
   props: {},
   mixins: [],
@@ -68,9 +68,22 @@ export default {
     ...mapState(["isLoading"]),
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getProductApi();
+  },
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["getProduct"]),
+    getProductApi() {
+      Promise.all([this.getProduct()])
+        .then((res) => {
+          console.log("success");
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
   },
   watch: {},
 };

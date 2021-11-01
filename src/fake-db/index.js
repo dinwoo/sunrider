@@ -1,5 +1,5 @@
 import mock from "./mock";
 
-import "./data/fakeData";
+// import "./data/fakeData";
 
 mock.onAny().passThrough(); // forwards the matched request over network

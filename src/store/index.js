@@ -65,7 +65,7 @@ export default new Vuex.Store({
         })
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
-            if (data.code == "success") {
+            if (data.success) {
               context.commit("SET_TOKEN", data.item);
               resolve();
             } else {
@@ -85,11 +85,11 @@ export default new Vuex.Store({
         ApiService.get("product", "", { p: 1 })
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
-            if (data.code == "success") {
+            if (data.success) {
               // context.commit("SET_TOKEN", data.item);
               resolve();
             } else {
-              alert(data.msg);
+              // alert(data.msg);
             }
           })
           .catch(({ response }) => {

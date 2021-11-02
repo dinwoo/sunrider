@@ -9,7 +9,7 @@ import axios from "axios";
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
-// axios.defaults.headers.common["x-user-token"] = window.localStorage.getItem(
+// axios.defaults.headers.common["x-user-token"] = localStorage.getItem(
 //   "id_token"
 // );
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -25,9 +25,9 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
-    console.log(window.localStorage.getItem("id_token"));
-    const token = window.localStorage.getItem("id_token");
-    axios.defaults.headers.common["x-user-token"] = token;
+    if (localStorage.getItem("id_token") !== null) {
+      config.headers.common["x-user-token"] = localStorage.getItem("id_token");
+    }
     return config;
   },
   function(error) {

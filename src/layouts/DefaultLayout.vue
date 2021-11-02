@@ -23,7 +23,7 @@ export default {
     ...mapState(["shopCartData"]),
   },
   mounted() {
-    // this.setShopCartData(JSON.parse(localStorage.getItem("shopCartData")));
+    this.setShopCartData(JSON.parse(localStorage.getItem("shopCartData")));
     window.onbeforeunload = () => {
       localStorage.setItem("shopCartData", JSON.stringify(this.shopCartData));
     };

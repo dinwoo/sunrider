@@ -1,20 +1,22 @@
 <template lang="pug">
 .product-item-wrapper
   figure.product-pic
-    img(src="@/assets/images/product-ticket5.png")
+    img(:src="shopCartItem.imageUrl")
   .product-info
-    .title {{shopCartItem.title}}
-    .product-name {{shopCartItem.name}}
-    .trash
+    .title {{shopCartItem.name}}
+    //- .product-name {{shopCartItem.name}}
+    .trash(@click="removeShopCartData(shopCartItem.id)")
       include ../assets/icon/icon-trash.pug
     .number-box
-      .number-btn.minus(@click="shopCartItem.num>0?shopCartItem.num--:shopCartItem.num") －
+      .number-btn.minus(@click="shopCartItem.num==1?removeShopCartData(shopCartItem.id):shopCartItem.num--") －
       input(type="text" v-model.number="shopCartItem.num")
       .number-btn.plus(@click="shopCartItem.num++") ＋
     .price NT${{shopCartItem.price}}
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "ShopcartItem",
   components: {},
@@ -27,7 +29,11 @@ export default {
   computed: {},
   beforeDestroy() {},
   mounted() {},
-  methods: {},
+  methods: {
+    ...mapMutations({
+      removeShopCartData: "REMOVE_SHOPCART_DATA",
+    }),
+  },
 };
 </script>
 

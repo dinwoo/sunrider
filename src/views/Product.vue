@@ -16,45 +16,22 @@
       br
       | 觀看直撥中，若需更換裝置觀看，請點擊右上方“離開觀看”，可於另一裝置以相同票券序號登入觀看。
   section.product-box
-    .product-item
+    .product-item(v-for="product in productList" :key="product.id")
       .container
-        .title 早鳥套票優惠
-        .product-name 5張門票
+        //- .title 早鳥套票優惠
+        .product-name {{product.name}}
         figure.product-pic
-          img(src="@/assets/images/product-ticket5.png")
+          img(:src="product.imageUrl")
         .number-box
-          .number-btn.minus －
-          input(type="number")
-          .number-btn.plus ＋
-        .price NT$1,800
-        .add-cart 加入購物車
-    .product-item
-      .container
-        .title 早鳥套票優惠
-        .product-name 10張門票
-        figure.product-pic
-          img(src="@/assets/images/product-ticket10.png")
-        .number-box
-          .number-btn.minus －
-          input(type="number")
-          .number-btn.plus ＋
-        .price NT$2,800
-        .add-cart 加入購物車
-    .product-item
-      .container
-        .product-name 單張門票
-        figure.product-pic
-          img(src="@/assets/images/product-ticket1.png")
-        .number-box
-          .number-btn.minus －
-          input(type="number")
-          .number-btn.plus ＋
-        .price NT$2,800
-        .add-cart 加入購物車
+          .number-btn.minus(@click="product.num==0?0:product.num--") －
+          input(type="text" v-model.number="product.num")
+          .number-btn.plus(@click="product.num++") ＋
+        .price NT${{product.price}}
+        .add-cart(@click="addShopCartData(product);setShopCart(true)") 加入購物車
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "Product",
@@ -62,7 +39,9 @@ export default {
   props: {},
   mixins: [],
   data() {
-    return {};
+    return {
+      productList: {},
+    };
   },
   computed: {
     ...mapState(["isLoading"]),
@@ -73,11 +52,18 @@ export default {
   },
   methods: {
     ...mapActions(["getProduct"]),
+    ...mapMutations({
+      setShopCart: "SET_SHOPCART",
+      addShopCartData: "ADD_SHOPCART_DATA",
+    }),
     getProductApi() {
       Promise.all([this.getProduct()])
         .then((res) => {
           console.log("success");
-          console.log(res);
+          res[0].items.forEach((product) => {
+            product.num = 1;
+          });
+          this.productList = res[0].items;
         })
         .catch((e) => {
           console.log(e);

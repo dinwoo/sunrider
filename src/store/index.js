@@ -6,28 +6,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    token: "",
-    lineId: "test_lineId",
-    displayName: "",
-    profilePicUrl: "",
+    token: localStorage.getItem("id_token") || "",
+    lineData: {
+      lineId: "test_lineId",
+      name: "",
+      profilePicUrl: "",
+    },
     isLoading: false,
     showMenu: false,
     showShopCart: false,
-    shopCartData: [
-      {
-        title: "title1",
-        name: "name1",
-        num: 1,
-        price: "1,800",
-      },
-      {
-        title: "title2",
-        name: "name2",
-        num: 3,
-        price: "2,800",
-      },
-    ],
-    lineData: {},
+    shopCartData: [],
+    productList: {},
+    orderList: {},
   },
   mutations: {
     SET_LOADING(state, value) {
@@ -42,14 +32,39 @@ export default new Vuex.Store({
     SET_SHOPCART_DATA(state, value) {
       state.shopCartData = value;
     },
+    ADD_SHOPCART_DATA(state, data) {
+      let existData = state.shopCartData.find((item) => {
+        return item.id == data.id;
+      });
+      if (existData) {
+        existData.num = data.num;
+      } else {
+        state.shopCartData.push(data);
+      }
+    },
+    REMOVE_SHOPCART_DATA(state, id) {
+      state.shopCartData.forEach((item, index) => {
+        if (item.id == id) {
+          state.shopCartData.splice(index, 1);
+        }
+      });
+    },
     SET_TOKEN(state, data) {
       window.localStorage.setItem("id_token", data.token);
       state.token = data.token;
     },
+    SET_PRODUCT_LIST(state, data) {
+      state.productList = data.items;
+    },
+    SET_ORDER_LIST(state, data) {
+      state.orderList = data;
+    },
     CHECK_LINE_LOGIN(state) {
       window.liff.init({ liffId: "1656566788-pwjew0yR" }).then(() => {
         window.liff.getProfile().then((profile) => {
-          state.lineData = profile;
+          state.lineData.lineId = profile.userId;
+          state.lineData.name = profile.displayName;
+          state.lineData.profilePicUrl = profile.pictureUrl;
         });
       });
     },
@@ -59,9 +74,9 @@ export default new Vuex.Store({
       context.commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
         ApiService.post("user/verification/login", {
-          lineId: this.state.lineId,
-          name: this.state.displayName,
-          profilePicUrl: this.state.profilePicUrl,
+          lineId: this.state.lineData.lineId,
+          name: this.state.lineData.name,
+          profilePicUrl: this.state.lineData.profilePicUrl,
         })
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
@@ -69,7 +84,7 @@ export default new Vuex.Store({
               context.commit("SET_TOKEN", data.item);
               resolve();
             } else {
-              alert(data.msg);
+              alert(data.error.message);
             }
           })
           .catch(({ response }) => {
@@ -82,14 +97,34 @@ export default new Vuex.Store({
     getProduct(context) {
       context.commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        ApiService.get("product", "", { p: 1 })
+        ApiService.get("product", "", {})
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
             if (data.success) {
-              // context.commit("SET_TOKEN", data.item);
+              // context.commit("SET_PRODUCT_LIST", data);
+              resolve(data);
+            } else {
+              alert(data.error.message);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    getOrder(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.get("order", "", {})
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.success) {
+              context.commit("SET_ORDER_LIST", data);
               resolve();
             } else {
-              // alert(data.msg);
+              alert(data.error.message);
             }
           })
           .catch(({ response }) => {

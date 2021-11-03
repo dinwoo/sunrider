@@ -16,7 +16,8 @@ header
       )
         include ../assets/icon/icon-menu.pug
   .menu(:class="{'active':showMenu}")
-    .menu-item(@click="goProductPage")
+    //- .menu-item(@click="goProductPage")
+    a.menu-item(href="https://liff.line.me/1656566788-pwjew0yR")
       p 購票
       .arrow
         include ../assets/icon/icon-arrow-r.pug

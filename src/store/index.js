@@ -59,6 +59,12 @@ export default new Vuex.Store({
     SET_ORDER_LIST(state, data) {
       state.orderList = data;
     },
+    SET_LINE_PROFILE(state, profile) {
+      console.log(profile);
+      state.lineData.lineId = profile.userId;
+      state.lineData.name = profile.displayName;
+      state.lineData.profilePicUrl = profile.pictureUrl;
+    },
     CHECK_LINE_LOGIN(state) {
       window.liff.init({ liffId: "1656566788-pwjew0yR" }).then(() => {
         window.liff.getProfile().then((profile) => {

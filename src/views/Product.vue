@@ -4,6 +4,7 @@
     figure
       img(src="@/assets/images/product-KV.jpg")
   section.information
+    p(style="text-align:center") Hi {{lineData.name}}
     .title 購票說明
     .highlight 購票前，請詳細閱讀以下購票說明及注意事項
     .list 1.線上直播大會之門票，購買後將以票券序號形式提供，意即購買5張門票即會有5組門票序號。
@@ -32,6 +33,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
+import liff from "@line/liff";
 
 export default {
   name: "Product",
@@ -44,10 +46,31 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isLoading"]),
+    ...mapState(["isLoading", "lineData"]),
   },
   created() {},
   mounted() {
+    liff
+      .init({
+        liffId: "1656566788-pwjew0yR",
+      })
+      .then(() => {
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri: window.location.href });
+        } else {
+          liff
+            .getProfile()
+            .then((profile) => {
+              this.$store.commit("SET_LINE_PROFILE", profile);
+            })
+            .catch((err) => {
+              console.log("error", err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     this.getProductApi();
   },
   methods: {

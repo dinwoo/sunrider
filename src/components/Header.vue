@@ -85,11 +85,17 @@ export default {
       this.$router.push({ name: "Product" });
     },
     goProductPage() {
-      if (this.isLineLogin) {
-        this.$router.push({ name: "Product" });
-      } else {
-        location.replace("https://liff.line.me/1656566788-pwjew0yR");
-      }
+      // if (this.isLineLogin) {
+      //   this.$router.push({ name: "Product" });
+      // } else {
+      //   try {
+      window.opener = null;
+      window.close();
+      location.replace("https://liff.line.me/1656566788-pwjew0yR");
+      //   } catch (e) {
+      //     alert(e);
+      //   }
+      // }
     },
   },
 };

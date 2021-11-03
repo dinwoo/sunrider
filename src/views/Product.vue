@@ -4,7 +4,6 @@
     figure
       img(src="@/assets/images/product-KV.jpg")
   section.information
-    p(style="text-align:center") Hi {{lineData.name}}
     .title 購票說明
     .highlight 購票前，請詳細閱讀以下購票說明及注意事項
     .list 1.線上直播大會之門票，購買後將以票券序號形式提供，意即購買5張門票即會有5組門票序號。
@@ -62,6 +61,10 @@ export default {
             .getProfile()
             .then((profile) => {
               this.$store.commit("SET_LINE_PROFILE", profile);
+              return this.getLoginToken();
+            })
+            .then(() => {
+              this.getProductApi();
             })
             .catch((err) => {
               console.log("error", err);
@@ -71,10 +74,9 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-    this.getProductApi();
   },
   methods: {
-    ...mapActions(["getProduct"]),
+    ...mapActions(["getLoginToken", "getProduct"]),
     ...mapMutations({
       setShopCart: "SET_SHOPCART",
       addShopCartData: "ADD_SHOPCART_DATA",

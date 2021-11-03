@@ -16,7 +16,7 @@ header
       )
         include ../assets/icon/icon-menu.pug
   .menu(:class="{'active':showMenu}")
-    router-link.menu-item(:to="{name:'Product'}")
+    .menu-item(@click="goProductPage")
       p 購票
       .arrow
         include ../assets/icon/icon-arrow-r.pug
@@ -58,7 +58,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["showMenu", "showShopCart", "shopCartData"]),
+    ...mapState(["showMenu", "showShopCart", "shopCartData", "isLineLogin"]),
     totalPrice() {
       return this.shopCartData.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.price * currentValue.num;
@@ -83,6 +83,13 @@ export default {
     continueBuy() {
       this.setShopCart(false);
       this.$router.push({ name: "Product" });
+    },
+    goProductPage() {
+      if (this.isLineLogin) {
+        this.$router.push({ name: "Product" });
+      } else {
+        location.replace("https://liff.line.me/1656566788-pwjew0yR");
+      }
     },
   },
 };

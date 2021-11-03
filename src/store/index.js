@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem("id_token") || "",
+    isLineLogin: false,
     lineData: {
       lineId: "test_lineId",
       name: "",
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     orderList: {},
   },
   mutations: {
+    SET_LINE_LOGIN(state, value) {
+      state.isLineLogin = value;
+    },
     SET_LOADING(state, value) {
       state.isLoading = value;
     },
@@ -64,15 +68,6 @@ export default new Vuex.Store({
       state.lineData.lineId = profile.userId;
       state.lineData.name = profile.displayName;
       state.lineData.profilePicUrl = profile.pictureUrl;
-    },
-    CHECK_LINE_LOGIN(state) {
-      window.liff.init({ liffId: "1656566788-pwjew0yR" }).then(() => {
-        window.liff.getProfile().then((profile) => {
-          state.lineData.lineId = profile.userId;
-          state.lineData.name = profile.displayName;
-          state.lineData.profilePicUrl = profile.pictureUrl;
-        });
-      });
     },
   },
   actions: {

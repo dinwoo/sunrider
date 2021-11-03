@@ -8,8 +8,10 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import liff from "@line/liff";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+
 export default {
   name: "Default",
   components: {
@@ -29,9 +31,23 @@ export default {
     window.onbeforeunload = () => {
       localStorage.setItem("shopCartData", JSON.stringify(this.shopCartData));
     };
+    liff
+      .init({
+        liffId: "1656566788-pwjew0yR",
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          console.log("尚未登入line");
+          this.setLineLogin(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     ...mapMutations({
+      setLineLogin: "SET_LINE_LOGIN",
       setShopCart: "SET_SHOPCART",
       setMenu: "SET_MENU",
       setShopCartData: "SET_SHOPCART_DATA",

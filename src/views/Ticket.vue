@@ -3,7 +3,7 @@
   .title
     .icon
       include ../assets/icon/icon-list.pug
-    p 我的購物車
+    p 購票紀錄
   .info-box
     .info
       .info-label 購買人姓名
@@ -59,12 +59,25 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["isLoading"]),
+    ...mapState(["isLoading", "orderList"]),
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.dateFormat("2021-11-04T01:58:49.763Z"));
+    this.getOrderApi();
+  },
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["getOrder"]),
+    getOrderApi() {
+      this.getOrder()
+        .then(() => {
+          console.log("success");
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
   },
   watch: {},
 };

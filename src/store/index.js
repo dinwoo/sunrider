@@ -135,6 +135,52 @@ export default new Vuex.Store({
           });
       });
     },
+    postOrder(context, data) {
+      const {
+        amount,
+        paidUserName,
+        paidUserGender,
+        paidUserPhone,
+        paidUserEmail,
+        paidMemberCode,
+        items,
+        frontendUrl,
+      } = data;
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("checkout", {
+          amount,
+          paidUserName,
+          paidUserGender,
+          paidUserPhone,
+          paidUserEmail,
+          paidMemberCode,
+          items,
+          frontendUrl,
+        })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.success) {
+              // context.commit("SET_ORDER_LIST", data);
+              resolve(data);
+            } else {
+              alert(data.error.message);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+  },
+  getters: {
+    totalPrice(state) {
+      return state.shopCartData.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.price * currentValue.num;
+      }, 0);
+    },
   },
   modules: {},
 });

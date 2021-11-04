@@ -21,34 +21,34 @@
         .input-title
           span.red *
           p 姓 名
-        input.input-style(type="text")
+        input.input-style(type="text" v-model="name")
       .gender-box
         .gender
-          input(type="radio")
+          input(type="radio" name="gender" v-model="gender" value="female")
           p 女士
         .gender
-          input(type="radio")
+          input(type="radio" name="gender" v-model="gender" value="male")
           p 先生
       label.input-row
         .input-title
           span.red *
           p 聯絡手機
-        input.input-style(type="phone")
+        input.input-style(type="phone" v-model="phone" maxLength="10")
       label.input-row
         .input-title
           span.red *
           p Email
-        input.input-style(type="email")
+        input.input-style(type="email" v-model="email")
       label.input-row
         .input-title
           p 會員編號
-        input.input-style(type="text")
+        input.input-style(type="text" v-model="memberCode")
       .input-row
         .input-title
         .check
-          input(type="checkbox")
+          input(type="checkbox" v-model="check")
           p 我已閱讀並同意購票說明及注意事項
-      router-link.main-btn(:to="{name:'Shopped'}") 前往付款
+      .main-btn(@click="postOrderApi") 前往付款
       
 
 </template>
@@ -63,15 +63,66 @@ export default {
   props: {},
   mixins: [],
   data() {
-    return {};
+    return {
+      name: "test name",
+      gender: "male",
+      phone: "0987654321",
+      email: "test@test.com",
+      memberCode: "123456",
+      check: true,
+    };
   },
   computed: {
     ...mapState(["isLoading", "shopCartData"]),
+    amount() {
+      return this.$store.getters.totalPrice;
+    },
+    productItems() {
+      return this.shopCartData.map((item) => {
+        return {
+          productId: item.id,
+          qty: item.num,
+        };
+      });
+    },
   },
   created() {},
   mounted() {},
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["postOrder"]),
+    postOrderApi() {
+      if (this.name == "") {
+        alert("請填寫姓名");
+        return false;
+      } else if (this.phone == "") {
+        alert("請填寫聯絡手機");
+        return false;
+      } else if (this.email == "") {
+        alert("請填寫Email");
+        return false;
+      } else if (!this.check) {
+        alert("請閱讀並同意購票說明及注意事項");
+        return false;
+      }
+
+      this.postOrder({
+        amount: this.amount,
+        paidUserName: this.name,
+        paidUserGender: this.gender,
+        paidUserPhone: this.phone,
+        paidUserEmail: this.email,
+        paidMemberCode: this.memberCode,
+        items: this.productItems,
+        frontendUrl: window.location.origin + "/shopped",
+      })
+        .then((res) => {
+          window.location.href = res.item;
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
   },
   watch: {},
 };

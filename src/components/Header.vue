@@ -39,7 +39,7 @@ header
         .calculate-box
           .container
             .title Total
-            .sum-price NT${{totalPrice}}
+            .sum-price NT${{amount}}
           .btn-box
             .btn.buy(:to="{name:'Product'}" @click="continueBuy") 繼續購買
             router-link.btn.checkout(:to="{name:'ShopPay'}") 馬上結帳
@@ -59,10 +59,8 @@ export default {
   },
   computed: {
     ...mapState(["showMenu", "showShopCart", "shopCartData", "isLineLogin"]),
-    totalPrice() {
-      return this.shopCartData.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue.price * currentValue.num;
-      }, 0);
+    amount() {
+      return this.$store.getters.totalPrice;
     },
   },
   beforeDestroy() {},

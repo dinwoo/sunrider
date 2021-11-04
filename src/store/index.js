@@ -61,7 +61,7 @@ export default new Vuex.Store({
       state.productList = data.items;
     },
     SET_ORDER_LIST(state, data) {
-      state.orderList = data;
+      state.orderList = data.items;
     },
     SET_LINE_PROFILE(state, profile) {
       console.log(profile);

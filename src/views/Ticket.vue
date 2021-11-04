@@ -4,44 +4,27 @@
     .icon
       include ../assets/icon/icon-list.pug
     p 購票紀錄
-  .info-box
-    .info
-      .info-label 購買人姓名
-      p XXX
-    .info
-      .info-label 聯絡手機
-      p 0987-654321
-  .ticket-box
-    .tickets
-      .info 購票時間：2021/11/25 12:00:00
-      .info 訂單編號：HSopfjhe52kf5e5ftg
-      .ticket-set
-        .name 早鳥優惠-5張門票
-        .price NT.1,800
-      .ticket-item
-        .ticket-info
-          .num-title 序號
-          .ticket-number Jsddkjepwojfh5ekfp
-          .ticket-user 使用者：SUNRIDER User
-        .btn 已綁定
-    .tickets
-      .info 購票時間：2021/11/25 12:00:00
-      .info 訂單編號：HSopfjhe52kf5e5ftg
-      .ticket-set
-        .name 早鳥優惠-5張門票
-        .price NT.1,800
-      .ticket-item
-        .ticket-info
-          .num-title 序號
-          .ticket-number Jsddkjepwojfh5ekfp
-          .ticket-user 使用者：SUNRIDER User
-        .btn.done 已綁定
-      .ticket-item
-        .ticket-info
-          .num-title 序號
-          .ticket-number Jsddkjepwojfh5ekfp
-          .ticket-user 使用者：SUNRIDER User
-        .btn 已綁定
+  .order-item(v-for="order in orderList" :key="order.id")
+    .info-box
+      .info
+        .info-label 購買人姓名
+        p {{order.paidUserName}}
+      .info
+        .info-label 聯絡手機
+        p {{order.paidUserPhone}}
+    .ticket-box
+      .info 購票時間：{{dateFormat(order.createDate)}}
+      .info 訂單編號：{{order.orderCode}}
+      .tickets(v-for="orderItem in order.items" :key="orderItem.id")
+        .ticket-set
+          .name {{orderItem.product.name}}
+          .price NT.{{orderItem.amount}}
+        .ticket-item(v-for="ticket in orderItem.tickets" :key="ticket.id")
+          .ticket-info
+            .num-title 序號
+            .ticket-number {{ticket.code}}
+            .ticket-user 使用者：{{ticket.bindingUserName}}
+          .btn(:class="{'done':ticket.bindingUserId}") {{ticket.bindingUserId?'已綁定':'未綁定'}}
   .cancel-ticket
     p 線上直播大會當日至大會日前第7日內辦理退票者，業者得不予退票
     router-link.btn(:to="{name:'Refund'}") 申請退票
@@ -63,7 +46,6 @@ export default {
   },
   created() {},
   mounted() {
-    console.log(this.dateFormat("2021-11-04T01:58:49.763Z"));
     this.getOrderApi();
   },
   methods: {
@@ -122,17 +104,17 @@ export default {
         color: $gray-003
         +dib
   .ticket-box
+    width: 100%
+    padding: 25px 40px
+    box-sizing: border-box
+    background-color: $gray-004
+    .info
+      margin-bottom: 10px
+      font-size: 1rem
+      line-height: 28px
+      color: $gray-003
     .tickets
-      width: 100%
-      padding: 25px 40px
       margin-top: 25px
-      box-sizing: border-box
-      background-color: $gray-004
-      .info
-        margin-bottom: 10px
-        font-size: 1rem
-        line-height: 28px
-        color: $gray-003
       .ticket-set
         margin-bottom: 40px
         +clearfix
@@ -225,7 +207,7 @@ export default {
     .ticket-box
       .tickets
         padding: 20px
-        margin-top: 15px
+        // margin-top: 15px
         .info
           margin-bottom: 5px
           // font-size: 1rem

@@ -24,7 +24,12 @@
             .num-title 序號
             .ticket-number {{ticket.code}}
             .ticket-user 使用者：{{ticket.bindingUserName}}
-          .btn(:class="{'done':ticket.bindingUserId}") {{ticket.bindingUserId?'已綁定':'未綁定'}}
+          .btn(
+            :class="{'done':ticket.bindingUserId}"
+            v-clipboard:copy="ticket.code"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+          ) {{ticket.bindingUserId?'已綁定':'未綁定'}}
   .cancel-ticket
     p 線上直播大會當日至大會日前第7日內辦理退票者，業者得不予退票
     router-link.btn(:to="{name:'Refund'}") 申請退票
@@ -59,6 +64,12 @@ export default {
           console.log(e);
           console.log("fail");
         });
+    },
+    onCopy() {
+      alert("複製成功！");
+    },
+    onError() {
+      alert("複製失敗！");
     },
   },
   watch: {},

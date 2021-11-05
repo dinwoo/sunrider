@@ -5,6 +5,9 @@ import store from "./store";
 import mixinMethod from "@/mixins/index.js";
 Vue.mixin(mixinMethod);
 
+import VueClipboard from "vue-clipboard2";
+Vue.use(VueClipboard);
+
 Vue.config.productionTip = false;
 
 import "./plugins/axios";

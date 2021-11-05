@@ -174,6 +174,27 @@ export default new Vuex.Store({
           });
       });
     },
+    postRefund(context, data) {
+      // const {} = data;
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("refund/create", { data })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.success) {
+              // context.commit("SET_ORDER_LIST", data);
+              resolve(data);
+            } else {
+              alert(data.error.message);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
   },
   getters: {
     totalPrice(state) {

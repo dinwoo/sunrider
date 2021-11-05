@@ -15,30 +15,18 @@
     .wrapper
       .title 請勾選欲退票的品項
       .refund-box
-        label.refund-item
-          input(type="radio" name="refund")
+        label.refund-item(v-for="ticket in refundList" :key="ticket.ticketId")
+          input(type="checkbox" v-model="refundCheckList" :value="ticket")
           .radio
           .refund-info
             .info
               span.gray 購票時間
-              | 2021/12/01 21:40:00
+              | {{dateFormat(ticket.date)}}
             .info
               span.gray 訂單編號
-              | Jsddkjepwojfh5ekfp
-            .name 單張門票
-            .price NT.400
-        label.refund-item
-          input(type="radio" name="refund")
-          .radio
-          .refund-info
-            .info
-              span.gray 購票時間
-              | 2021/12/01 21:40:00
-            .info
-              span.gray 訂單編號
-              | Jsddkjepwojfh5ekfp
-            .name 單張門票
-            .price NT.400
+              | {{ticket.orderId}}
+            .name {{ticket.name}}
+            .price NT.{{ticket.amount}}
     .wrapper
       .title 請填寫退票申請書
       .form-box
@@ -46,56 +34,143 @@
           .input-title
             span.red *
             p 姓 名
-          input.input-style(type="text" placeholder="需同購買人姓名")
+          input.input-style(type="text" placeholder="需同購買人姓名" v-model="name")
         label.input-row
           .input-title
             span.red *
             p 聯絡手機
-          input.input-style(type="text" placeholder="需同購買人聯絡手機")
+          input.input-style(type="text" placeholder="需同購買人聯絡手機" v-model="phone")
         label.input-row
           .input-title
             span.red *
             p Email
-          input.input-style(type="text" placeholder="需同購買人Email")
+          input.input-style(type="text" placeholder="需同購買人Email" v-model="email")
         label.input-row
           .input-title
             span.red *
             p 信用卡號
           .credit-card
             .card-num
-              input(type="text" maxlength="4")
+              input(type="text" maxlength="4" v-model="cardNum1")
             .card-num
               input(type="text" value="****" disabled)
             .card-num
               input(type="text" value="****" disabled)
             .card-num
-              input(type="text" maxlength="4")
+              input(type="text" maxlength="4" v-model="cardNum2")
           .remark 需同購買之信用卡號
         label.input-row
           .input-title
             span.red *
             p 聯絡地址
-          input.input-style(type="text" placeholder="")
+          input.input-style(type="text" placeholder="" v-model="address")
         .input-row
           .input-title
           .check
-            input(type="checkbox")
+            input(type="checkbox" v-model="check")
             p 我已閱讀並同意購票說明及注意事項
-      router-link.main-btn(:to="{name:'Refunded'}") 送出退票申請
+      .main-btn() 送出退票申請
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Refund",
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      refundCheckList: [],
+      name: "test name",
+      phone: "0987654321",
+      email: "test@test.com",
+      cardNum1: "1234",
+      cardNum2: "5678",
+      address: "台北市",
+      check: true,
+    };
   },
-  computed: {},
+  computed: {
+    ...mapState(["isLoading", "orderList"]),
+    refundList() {
+      let list = [];
+      if (Object.keys(this.orderList).length) {
+        this.orderList.forEach((order) => {
+          order.items.forEach((ticket) => {
+            if (ticket.isRefundable) {
+              list.push({
+                date: order.createDate,
+                orderId: order.orderCode,
+                ticketId: ticket.id,
+                name: ticket.product.name,
+                amount: ticket.amount,
+              });
+            }
+          });
+        });
+      }
+      return list;
+    },
+    creditCardNum() {
+      return `${this.cardNum1}********${this.cardNum2}`;
+    },
+    refundAmount() {
+      return this.refundCheckList.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.amount;
+      }, 0);
+    },
+  },
   beforeDestroy() {},
-  mounted() {},
-  methods: {},
+  mounted() {
+    this.getOrderApi();
+  },
+  methods: {
+    ...mapActions(["getOrder"]),
+    getOrderApi() {
+      this.getOrder()
+        .then(() => {
+          console.log("success");
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
+    // postOrderApi() {
+    //   if (this.name == "") {
+    //     alert("請填寫姓名");
+    //     return false;
+    //   } else if (this.phone == "") {
+    //     alert("請填寫聯絡手機");
+    //     return false;
+    //   } else if (this.email == "") {
+    //     alert("請填寫Email");
+    //     return false;
+    //   } else if (!this.check) {
+    //     alert("請閱讀並同意購票說明及注意事項");
+    //     return false;
+    //   }
+
+    //   this.postOrder({
+    //     amount: this.amount,
+    //     paidUserName: this.name,
+    //     paidUserGender: this.gender,
+    //     paidUserPhone: this.phone,
+    //     paidUserEmail: this.email,
+    //     paidMemberCode: this.memberCode,
+    //     items: this.productItems,
+    //     frontendUrl: window.location.origin + "/shopped",
+    //   })
+    //     .then((res) => {
+    //       window.location.href = res.item;
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //       console.log("fail");
+    //     });
+    // },
+  },
 };
 </script>
 

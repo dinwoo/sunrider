@@ -205,13 +205,13 @@ export default {
           // font-size: 1.1rem
           // line-height: 28px
     .ticket-box
+      padding: 20px
+      .info
+        margin-bottom: 5px
+        // font-size: 1rem
+        // line-height: 28px
       .tickets
-        padding: 20px
-        // margin-top: 15px
-        .info
-          margin-bottom: 5px
-          // font-size: 1rem
-          // line-height: 28px
+        margin-top: 15px
         .ticket-set
           margin-bottom: 20px
           .name

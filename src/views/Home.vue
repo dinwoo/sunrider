@@ -51,21 +51,33 @@ export default {
   props: {},
   mixins: [],
   data() {
-    return {};
+    return {
+      time: null,
+    };
   },
   computed: {
-    ...mapState(["isLoading", "token"]),
+    ...mapState(["isLoading", "token", "countDownTime"]),
+    countDownDay() {
+      return Math.floor(this.time / 60 / 24);
+    },
+    countDownHour() {
+      return Math.floor(this.time % (24 * 60));
+    },
+    countDownMinute() {
+      return this.time;
+    },
   },
   created() {
     this.getLoginTokenApi();
   },
   mounted() {},
   methods: {
-    ...mapActions(["getLoginToken"]),
+    ...mapActions(["getCountDown", "getLoginToken"]),
     getLoginTokenApi() {
-      Promise.all([this.getLoginToken()])
+      Promise.all([this.getCountDown()])
         .then(() => {
           console.log("success");
+          this.time = Math.floor(this.countDownTime / 60);
         })
         .catch((e) => {
           console.log(e);

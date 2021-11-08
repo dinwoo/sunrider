@@ -4,7 +4,7 @@ header
     router-link.logo(:to="{name:'Home'}")
       include ../assets/icon/logo-sunrider.pug
     .menu-box
-      .icon.memeber
+      router-link.icon.memeber(:to="{name:'Ticket'}")
         include ../assets/icon/icon-member.pug
       .icon(
         @click="setShopCartHandler()"
@@ -20,7 +20,7 @@ header
       p 購票
       .arrow
         include ../assets/icon/icon-arrow-r.pug
-    .menu-item
+    router-link.menu-item(:to="{name:'Exchange'}")
       p 觀看直播
       .arrow
         include ../assets/icon/icon-arrow-r.pug

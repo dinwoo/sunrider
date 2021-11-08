@@ -18,6 +18,7 @@
       .tickets(v-for="orderItem in order.items" :key="orderItem.id")
         .ticket-set
           .name {{orderItem.product.name}}
+            span.red(v-if="!order.isPaid") 未付款
           .price NT.{{orderItem.amount}}
         .ticket-item(v-for="ticket in orderItem.tickets" :key="ticket.id")
           .ticket-info
@@ -25,6 +26,7 @@
             .ticket-number {{ticket.code}}
             .ticket-user 使用者：{{ticket.bindingUserName}}
           .btn(
+            v-if="order.isPaid"
             :class="{'done':ticket.bindingUserId}"
             v-clipboard:copy="ticket.code"
             v-clipboard:success="onCopy"
@@ -134,6 +136,9 @@ export default {
           line-height: 28px
           font-weight: bold
           float: left
+          .red
+            padding-left: 5px
+            color: red
         .price
           font-size: 1.1rem
           line-height: 28px

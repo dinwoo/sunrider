@@ -24,7 +24,7 @@
               | {{dateFormat(ticket.date)}}
             .info
               span.gray 訂單編號
-              | {{ticket.orderId}}
+              | {{ticket.orderCode}}
             .name {{ticket.name}}
             .price NT.{{ticket.amount}}
     .wrapper
@@ -68,8 +68,8 @@
           .input-title
           .check
             input(type="checkbox" v-model="check")
-            p 我已閱讀並同意購票說明及注意事項
-      .main-btn() 送出退票申請
+            p 我已閱讀並同意退票說明及注意事項
+      .main-btn(@click="postRefundApi") 送出退票申請
 </template>
 
 <script>
@@ -101,7 +101,8 @@ export default {
             if (ticket.isRefundable) {
               list.push({
                 date: order.createDate,
-                orderId: order.orderCode,
+                orderCode: order.orderCode,
+                orderId: order.id,
                 ticketId: ticket.id,
                 name: ticket.product.name,
                 amount: ticket.amount,
@@ -120,13 +121,21 @@ export default {
         return accumulator + currentValue.amount;
       }, 0);
     },
+    refundItems() {
+      return this.refundCheckList.map((item) => {
+        return {
+          orderId: item.orderId,
+          orderItemId: item.ticketId,
+        };
+      });
+    },
   },
   beforeDestroy() {},
   mounted() {
     this.getOrderApi();
   },
   methods: {
-    ...mapActions(["getOrder"]),
+    ...mapActions(["getOrder", "postRefund"]),
     getOrderApi() {
       this.getOrder()
         .then(() => {
@@ -137,39 +146,48 @@ export default {
           console.log("fail");
         });
     },
-    // postOrderApi() {
-    //   if (this.name == "") {
-    //     alert("請填寫姓名");
-    //     return false;
-    //   } else if (this.phone == "") {
-    //     alert("請填寫聯絡手機");
-    //     return false;
-    //   } else if (this.email == "") {
-    //     alert("請填寫Email");
-    //     return false;
-    //   } else if (!this.check) {
-    //     alert("請閱讀並同意購票說明及注意事項");
-    //     return false;
-    //   }
+    postRefundApi() {
+      if (!this.refundCheckList.length) {
+        alert("請選擇欲退票品項");
+        return false;
+      } else if (this.name == "") {
+        alert("請填寫姓名");
+        return false;
+      } else if (this.phone == "") {
+        alert("請填寫聯絡手機");
+        return false;
+      } else if (this.email == "") {
+        alert("請填寫Email");
+        return false;
+      } else if (this.cardNum1 == "" || this.cardNum2 == "") {
+        alert("請填寫信用卡資訊");
+        return false;
+      } else if (this.address == "") {
+        alert("請填寫地址");
+        return false;
+      } else if (!this.check) {
+        alert("請閱讀並同意退票說明及注意事項");
+        return false;
+      }
 
-    //   this.postOrder({
-    //     amount: this.amount,
-    //     paidUserName: this.name,
-    //     paidUserGender: this.gender,
-    //     paidUserPhone: this.phone,
-    //     paidUserEmail: this.email,
-    //     paidMemberCode: this.memberCode,
-    //     items: this.productItems,
-    //     frontendUrl: window.location.origin + "/shopped",
-    //   })
-    //     .then((res) => {
-    //       window.location.href = res.item;
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //       console.log("fail");
-    //     });
-    // },
+      this.postRefund({
+        amount: String(this.refundAmount),
+        paidUserName: this.name,
+        paidUserPhone: this.phone,
+        paidUserEmail: this.email,
+        paidUserAddress: this.address,
+        paidCardCode: this.creditCardNum,
+        items: this.refundItems,
+      })
+        .then(() => {
+          console.log("success");
+          this.$router.push({ name: "Refunded" });
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
   },
 };
 </script>

@@ -32,7 +32,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
-import liff from "@line/liff";
+// import liff from "@line/liff";
 
 export default {
   name: "Product",
@@ -49,31 +49,31 @@ export default {
   },
   created() {},
   mounted() {
-    liff
-      .init({
-        liffId: "1656566788-pwjew0yR",
-      })
-      .then(() => {
-        if (!liff.isLoggedIn()) {
-          liff.login({ redirectUri: window.location.href });
-        } else {
-          liff
-            .getProfile()
-            .then((profile) => {
-              this.$store.commit("SET_LINE_PROFILE", profile);
-              return this.getLoginToken();
-            })
-            .then(() => {
-              this.getProductApi();
-            })
-            .catch((err) => {
-              console.log("error", err);
-            });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // liff
+    //   .init({
+    //     liffId: "1656566788-pwjew0yR",
+    //   })
+    //   .then(() => {
+    //     if (!liff.isLoggedIn()) {
+    //       liff.login({ redirectUri: window.location.href });
+    //     } else {
+    //       liff
+    //         .getProfile()
+    //         .then((profile) => {
+    //           this.$store.commit("SET_LINE_PROFILE", profile);
+    //           return this.getLoginToken();
+    //         })
+    //         .then(() => {
+    this.getProductApi();
+    //       })
+    //       .catch((err) => {
+    //         console.log("error", err);
+    //       });
+    //   }
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   },
   methods: {
     ...mapActions(["getLoginToken", "getProduct"]),

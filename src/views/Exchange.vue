@@ -7,7 +7,7 @@
       .input-title 
         span.red *
         p 請輸入您的票券序號
-      input.input-style(type="text" placeholder="")
+      input.input-style(type="text" placeholder="" v-model="code")
       .remark *號為必填
     .title 看直播抽好禮
     .highlight
@@ -20,52 +20,110 @@
         .input-title
           span.red *
           p 真實姓名
-        input.input-style(type="text" placeholder="兌換用，請務必輸入真實姓名")
+        input.input-style(type="text" placeholder="兌換用，請務必輸入真實姓名" v-model="name")
       label.input-row
         .input-title
           span.red *
           p 聯絡手機
-        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機")
+        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機" v-model="phone")
       label.input-row
         .input-title
           span.red *
           p 出生日期
         .birthday-box
-          select
-            option(value="") 西元
-          select
-            option(value="") 月份
-          select
-            option(value="") 日期
+          select(v-model="year")
+            option(value="null") 西元
+            option(v-for="year in 111" :key="year" :value="year+1910") {{year+1910}}
+          select(v-model="month")
+            option(value="null") 月份
+            option(v-for="month in 12" :key="month" :value="month") {{month}}
+          select(v-model="day")
+            option(value="null") 日期
+            option(v-for="day in 31" :key="day" :value="day") {{day}}
       label.input-row
         .input-title
           span.red *
           p 地址
-        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機")
+        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機" v-model="phone")
       label.input-row
         .input-title
           p 會員編號
-        input.input-style(type="text" placeholder="" value="TW")
+        input.input-style(type="text" placeholder="" value="TW" v-model="memberCode")
       label.input-row
         .input-title
           p 級別
-        input.input-style(type="text" placeholder="輸入本次年會表彰新晉級別")
+        input.input-style(type="text" placeholder="輸入本次年會表彰新晉級別" v-model="memberRank")
     .remind 觀看直撥建議以Chrome瀏覽觀看
-    router-link.main-btn(:to="{name:'WaitLive'}") 加入觀看
+    .main-btn(@click="postBindingApi") 加入觀看
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
-  name: "Refund",
+  name: "Exchange",
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      code: "12345",
+      name: "testname",
+      phone: "0987654321",
+      year: null,
+      month: null,
+      day: null,
+      address: "台北市",
+      memberCode: "123456",
+      memberRank: "1",
+    };
   },
-  computed: {},
+  computed: {
+    ...mapState(["isLoading"]),
+    birthday() {
+      return `${this.year}-${this.month}-${this.day}`;
+    },
+  },
   beforeDestroy() {},
   mounted() {},
-  methods: {},
+  methods: {
+    ...mapActions(["postBinding"]),
+    postBindingApi() {
+      if (this.code == "") {
+        alert("請填寫票券序號");
+        return false;
+      } else if (this.name == "") {
+        alert("請填寫姓名");
+        return false;
+      } else if (this.phone == "") {
+        alert("請填寫聯絡手機");
+        return false;
+      } else if (this.year == null || this.month == null || this.day == null) {
+        alert("請填寫生日");
+        return false;
+      } else if (this.address == "") {
+        alert("請填寫地址");
+        return false;
+      }
+
+      this.postBinding({
+        code: this.code,
+        bindingUserName: this.name,
+        bindingUserPhone: this.phone,
+        bindingUserBirthday: this.birthday,
+        bindingUserAddress: this.address,
+        bindingMemberCode: this.memberCode,
+        bindingMemberRank: this.memberRank,
+      })
+        .then(() => {
+          console.log("success");
+          this.$router.push({ name: "WaitLive" });
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
+  },
 };
 </script>
 

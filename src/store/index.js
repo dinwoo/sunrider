@@ -13,6 +13,7 @@ export default new Vuex.Store({
       name: "",
       profilePicUrl: "",
     },
+    countDownTime: null,
     isLoading: false,
     showMenu: false,
     showShopCart: false,
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     SET_LOADING(state, value) {
       state.isLoading = value;
+    },
+    SET_COUNT_DOWN_TIME(state, value) {
+      state.countDownTime = value.countdownSeconds;
     },
     SET_MENU(state, value) {
       state.showMenu = value;
@@ -83,6 +87,26 @@ export default new Vuex.Store({
             context.commit("SET_LOADING", false);
             if (data.success) {
               context.commit("SET_TOKEN", data.item);
+              resolve();
+            } else {
+              alert(data.error.message);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    getCountDown(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.get("countdown", "", {})
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.success) {
+              context.commit("SET_COUNT_DOWN_TIME", data.item);
               resolve();
             } else {
               alert(data.error.message);
@@ -175,10 +199,63 @@ export default new Vuex.Store({
       });
     },
     postRefund(context, data) {
-      // const {} = data;
+      const {
+        amount,
+        paidUserName,
+        paidUserPhone,
+        paidUserEmail,
+        paidUserAddress,
+        paidCardCode,
+        items,
+      } = data;
       context.commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        ApiService.post("refund/create", { data })
+        ApiService.post("refund/create", {
+          amount,
+          paidUserName,
+          paidUserPhone,
+          paidUserEmail,
+          paidUserAddress,
+          paidCardCode,
+          items,
+        })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.success) {
+              // context.commit("SET_ORDER_LIST", data);
+              resolve(data);
+            } else {
+              alert(data.error.message);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    postBinding(context, data) {
+      const {
+        code,
+        bindingUserName,
+        bindingUserPhone,
+        bindingUserBirthday,
+        bindingUserAddress,
+        bindingMemberCode,
+        bindingMemberRank,
+      } = data;
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("ticket/binding", {
+          code,
+          bindingUserName,
+          bindingUserPhone,
+          bindingUserBirthday,
+          bindingUserAddress,
+          bindingMemberCode,
+          bindingMemberRank,
+        })
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
             if (data.success) {

@@ -29,7 +29,7 @@ export default new Vuex.Store({
       state.isLoading = value;
     },
     SET_COUNT_DOWN_TIME(state, value) {
-      state.countDownTime = value.countdownSeconds;
+      state.countDownTime = value;
     },
     SET_MENU(state, value) {
       state.showMenu = value;
@@ -110,8 +110,28 @@ export default new Vuex.Store({
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
             if (data.success) {
-              context.commit("SET_COUNT_DOWN_TIME", data.item);
+              context.commit("SET_COUNT_DOWN_TIME", data.item.countdownSeconds);
               resolve();
+            } else {
+              alert(data.error.message);
+            }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    checkLiveStatus(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("user/verification/check-active", {})
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            if (data.success) {
+              context.commit("SET_COUNT_DOWN_TIME", data.item.countdownSeconds);
+              resolve(data.item);
             } else {
               alert(data.error.message);
             }

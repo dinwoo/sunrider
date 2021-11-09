@@ -9,13 +9,13 @@
       .timer-title 直播倒數
       .timer-box
         .timer-item
-          .number 05
+          .number {{countDownDay}}
           .unit 天
         .timer-item
-          .number 10
+          .number {{countDownHour}}
           .unit 小時
         .timer-item
-          .number 30
+          .number {{countDownMinute}}
           .unit 分鐘
   section.intro
     .title 活動亮點
@@ -38,34 +38,26 @@
       | 凡買票、參加即可享只送不賣的超值好禮
       br
       | 誠摯邀您一同參與
-    .main-btn 前往購票
+    router-link.main-btn(:to="{name:'Product'}") 前往購票
 
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import timer from "@/mixins/timer.js";
 
 export default {
   name: "Home",
   components: {},
   props: {},
-  mixins: [],
+  mixins: [timer],
   data() {
     return {
-      time: null,
+      second: null,
     };
   },
   computed: {
-    ...mapState(["isLoading", "token", "countDownTime"]),
-    countDownDay() {
-      return Math.floor(this.time / 60 / 24);
-    },
-    countDownHour() {
-      return Math.floor(this.time % (24 * 60));
-    },
-    countDownMinute() {
-      return this.time;
-    },
+    ...mapState(["isLoading", "token"]),
   },
   created() {
     this.getLoginTokenApi();
@@ -77,7 +69,7 @@ export default {
       Promise.all([this.getCountDown(), this.getLoginToken()])
         .then(() => {
           console.log("success");
-          this.time = Math.floor(this.countDownTime / 60);
+          this.initTimer();
         })
         .catch((e) => {
           console.log(e);

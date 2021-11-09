@@ -84,9 +84,23 @@ export default {
     },
   },
   beforeDestroy() {},
-  mounted() {},
+  mounted() {
+    this.checkLiveStatus()
+      .then((res) => {
+        console.log(res);
+        if (res.isBinding && res.countdownSeconds <= 0) {
+          this.$router.push({ name: "Live" });
+        } else if (res.isBinding && res.countdownSeconds > 0) {
+          this.$router.push({ name: "WaitLive" });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        console.log("fail");
+      });
+  },
   methods: {
-    ...mapActions(["postBinding"]),
+    ...mapActions(["checkLiveStatus", "postBinding"]),
     postBindingApi() {
       if (this.code == "") {
         alert("請填寫票券序號");

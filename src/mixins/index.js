@@ -1,10 +1,12 @@
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import liff from "@line/liff";
 
 export default {
   computed: {
-    ...mapState(["lang"]),
+    ...mapState(["countDownTime"]),
   },
   methods: {
+    ...mapActions(["getLoginToken"]),
     compileFilePath(file) {
       return require(`@/assets/images/${file}`);
     },
@@ -48,6 +50,36 @@ export default {
         return formatted_date;
       };
       return formatDate(date);
+    },
+    lineLogin(redirectUri) {
+      return new Promise((resolve, reject) => {
+        liff
+          .init({
+            liffId: "1656566788-pwjew0yR",
+          })
+          .then(() => {
+            if (!liff.isLoggedIn()) {
+              liff.login({ redirectUri });
+            } else {
+              liff
+                .getProfile()
+                .then((profile) => {
+                  this.$store.commit("SET_LINE_PROFILE", profile);
+                  return this.getLoginToken();
+                })
+                .then(() => {
+                  resolve(true);
+                })
+                .catch((err) => {
+                  console.log("error", err);
+                });
+            }
+          })
+          .catch((err) => {
+            reject(false);
+            console.log(err);
+          });
+      });
     },
   },
 };

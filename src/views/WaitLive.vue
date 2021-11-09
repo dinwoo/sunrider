@@ -9,40 +9,70 @@
       .timer-title 直播倒數
       .timer-box
         .timer-item
-          .number 05
+          .number {{countDownDay}}
           .unit 天
         .timer-item
-          .number 10
+          .number {{countDownHour}}
           .unit 小時
         .timer-item
-          .number 30
+          .number {{countDownMinute}}
           .unit 分鐘
     .status 直播尚未開放入場
     .remark
       | 將於12/4下午2點開放入場
       br
       | 點擊以下按鈕，即可進入觀看！
-    router-link.main-btn(:to="{name:'Live'}") 開始觀看
+    .main-btn(
+      :class="{'disable': countDownTime > 0}"
+      @click="goLivePage"
+    ) 開始觀看
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import timer from "@/mixins/timer.js";
 
 export default {
-  name: "Home",
+  name: "WaitLive",
   components: {},
   props: {},
-  mixins: [],
+  mixins: [timer],
   data() {
     return {};
   },
   computed: {
-    ...mapState(["isLoading", "api"]),
+    ...mapState(["isLoading", "countDownTime"]),
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.checkLiveStatusApi();
+  },
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["checkLiveStatus"]),
+    checkLiveStatusApi() {
+      this.checkLiveStatus()
+        .then((res) => {
+          console.log("success");
+          if (!res.isBinding) {
+            this.$router.push({ name: "Exchange" });
+          } else if (res.countdownSeconds <= 0) {
+            this.$router.push({ name: "Live" });
+          } else {
+            this.initTimer();
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
+    goLivePage() {
+      if (this.countDownTime <= 0) {
+        this.$router.push({ name: "Live" });
+      } else {
+        alert("直播尚未開始！");
+      }
+    },
   },
   watch: {},
 };
@@ -95,6 +125,10 @@ export default {
       font-size: 1rem
       line-height: 28px
       color: $gray-003
+    .disable
+      color: #999
+      border: 1px solid #ccc
+      background-color: #eee
     +rwd(540px)
       padding: 35px 0 25px
       figure

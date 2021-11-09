@@ -38,7 +38,7 @@
       | 凡買票、參加即可享只送不賣的超值好禮
       br
       | 誠摯邀您一同參與
-    router-link.main-btn(:to="{name:'Product'}") 前往購票
+    a.main-btn(href="https://liff.line.me/1655134709-GYX5yKgg") 前往購票
 
 </template>
 
@@ -64,9 +64,9 @@ export default {
   },
   mounted() {},
   methods: {
-    ...mapActions(["getCountDown", "getLoginToken"]),
+    ...mapActions(["getCountDown"]),
     getLoginTokenApi() {
-      Promise.all([this.getCountDown(), this.getLoginToken()])
+      Promise.all([this.getCountDown()])
         .then(() => {
           console.log("success");
           this.initTimer();

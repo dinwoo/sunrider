@@ -16,7 +16,8 @@ header
       )
         include ../assets/icon/icon-menu.pug
   .menu(:class="{'active':showMenu}")
-    .menu-item(@click="goProductPage")
+    //- .menu-item(@click="goProductPage")
+    a.menu-item(href="https://liff.line.me/1655134709-GYX5yKgg")
       p 購票
       .arrow
         include ../assets/icon/icon-arrow-r.pug
@@ -86,13 +87,7 @@ export default {
       // if (this.isLineLogin) {
       //   this.$router.push({ name: "Product" });
       // } else {
-      //   try {
-      window.opener = null;
-      window.close();
-      location.replace("https://liff.line.me/1656566788-pwjew0yR");
-      //   } catch (e) {
-      //     alert(e);
-      //   }
+      location.replace("https://liff.line.me/1655134709-GYX5yKgg");
       // }
     },
   },

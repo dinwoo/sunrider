@@ -48,13 +48,17 @@ export default {
   },
   created() {},
   mounted() {
-    this.lineLogin(window.location.href)
-      .then(() => {
-        this.getProductApi();
-      })
-      .catch(() => {
-        console.log("失敗");
-      });
+    if (this.token == "") {
+      this.lineLogin("1655134709-GYX5yKgg")
+        .then(() => {
+          this.getProductApi();
+        })
+        .catch(() => {
+          console.log("失敗");
+        });
+    } else {
+      this.getProductApi();
+    }
   },
   methods: {
     ...mapActions(["getLoginToken", "getProduct"]),

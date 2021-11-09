@@ -3,7 +3,7 @@ import liff from "@line/liff";
 
 export default {
   computed: {
-    ...mapState(["countDownTime"]),
+    ...mapState(["token", "countDownTime"]),
   },
   methods: {
     ...mapActions(["getLoginToken"]),
@@ -51,15 +51,16 @@ export default {
       };
       return formatDate(date);
     },
-    lineLogin(redirectUri) {
+    lineLogin(liffId) {
       return new Promise((resolve, reject) => {
         liff
           .init({
-            liffId: "1656566788-pwjew0yR",
+            liffId,
           })
           .then(() => {
             if (!liff.isLoggedIn()) {
-              liff.login({ redirectUri });
+              console.log("尚未登入Line");
+              liff.login({});
             } else {
               liff
                 .getProfile()

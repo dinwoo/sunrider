@@ -87,7 +87,15 @@ export default {
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.lineLogin("1655134709-GB4Jo0MM")
+      .then(() => {
+        console.log("success");
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  },
   methods: {
     ...mapActions(["postOrder"]),
     ...mapMutations({

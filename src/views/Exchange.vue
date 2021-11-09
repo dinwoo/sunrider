@@ -85,22 +85,31 @@ export default {
   },
   beforeDestroy() {},
   mounted() {
-    this.checkLiveStatus()
-      .then((res) => {
-        console.log(res);
-        if (res.isBinding && res.countdownSeconds <= 0) {
-          this.$router.push({ name: "Live" });
-        } else if (res.isBinding && res.countdownSeconds > 0) {
-          this.$router.push({ name: "WaitLive" });
-        }
+    this.lineLogin("1655134709-Ek78nNdd")
+      .then(() => {
+        this.checkLiveStatusApi();
       })
-      .catch((e) => {
-        console.log(e);
-        console.log("fail");
+      .catch(() => {
+        console.log("失敗");
       });
   },
   methods: {
     ...mapActions(["checkLiveStatus", "postBinding"]),
+    checkLiveStatusApi() {
+      this.checkLiveStatus()
+        .then((res) => {
+          console.log(res);
+          if (res.isBinding && res.countdownSeconds <= 0) {
+            this.$router.push({ name: "Live" });
+          } else if (res.isBinding && res.countdownSeconds > 0) {
+            this.$router.push({ name: "WaitLive" });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("fail");
+        });
+    },
     postBindingApi() {
       if (this.code == "") {
         alert("請填寫票券序號");

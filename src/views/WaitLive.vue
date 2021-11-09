@@ -45,7 +45,14 @@ export default {
   },
   created() {},
   mounted() {
-    this.checkLiveStatusApi();
+    this.lineLogin("1655134709-nL54ekll")
+      .then(() => {
+        this.checkLiveStatusApi();
+        console.log("success");
+      })
+      .catch(() => {
+        console.log("error");
+      });
   },
   methods: {
     ...mapActions(["checkLiveStatus"]),

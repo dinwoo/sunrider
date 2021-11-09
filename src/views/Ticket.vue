@@ -53,7 +53,13 @@ export default {
   },
   created() {},
   mounted() {
-    this.getOrderApi();
+    this.lineLogin("1655134709-vmly6mxx")
+      .then(() => {
+        this.getOrderApi();
+      })
+      .catch(() => {
+        console.log("失敗");
+      });
   },
   methods: {
     ...mapActions(["getOrder"]),

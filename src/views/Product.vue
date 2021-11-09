@@ -48,17 +48,13 @@ export default {
   },
   created() {},
   mounted() {
-    if (this.token == "") {
-      this.lineLogin("1655134709-GYX5yKgg")
-        .then(() => {
-          this.getProductApi();
-        })
-        .catch(() => {
-          console.log("失敗");
-        });
-    } else {
-      this.getProductApi();
-    }
+    this.lineLogin("1655134709-GYX5yKgg")
+      .then(() => {
+        this.getProductApi();
+      })
+      .catch(() => {
+        console.log("失敗");
+      });
   },
   methods: {
     ...mapActions(["getLoginToken", "getProduct"]),

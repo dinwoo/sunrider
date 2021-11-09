@@ -132,7 +132,13 @@ export default {
   },
   beforeDestroy() {},
   mounted() {
-    this.getOrderApi();
+    this.lineLogin("1655134709-g4jlYvqq")
+      .then(() => {
+        this.getOrderApi();
+      })
+      .catch(() => {
+        console.log("失敗");
+      });
   },
   methods: {
     ...mapActions(["getOrder", "postRefund"]),

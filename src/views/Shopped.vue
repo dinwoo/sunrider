@@ -24,7 +24,11 @@ export default {
     ...mapState(["isLoading"]),
   },
   created() {},
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      this.$router.push({ name: "Ticket" });
+    }, 3000);
+  },
   methods: {
     ...mapActions([""]),
   },

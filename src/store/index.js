@@ -40,6 +40,10 @@ export default new Vuex.Store({
     SET_SHOPCART_DATA(state, value) {
       state.shopCartData = value;
     },
+    CLEAR_SHOPCART_DATA(state) {
+      localStorage.setItem("shopCartData", JSON.stringify([]));
+      state.shopCartData = [];
+    },
     ADD_SHOPCART_DATA(state, data) {
       let existData = state.shopCartData.find((item) => {
         return item.id == data.id;
@@ -262,7 +266,8 @@ export default new Vuex.Store({
               // context.commit("SET_ORDER_LIST", data);
               resolve(data);
             } else {
-              alert(data.error.message);
+              // alert(data.error.message);
+              console.log(data.error.message);
             }
           })
           .catch(({ response }) => {

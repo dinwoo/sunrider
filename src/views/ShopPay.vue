@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import ShopcartItem from "@/components/ShopcartItem.vue";
 
 export default {
@@ -90,6 +90,9 @@ export default {
   mounted() {},
   methods: {
     ...mapActions(["postOrder"]),
+    ...mapMutations({
+      clearShopCartData: "CLEAR_SHOPCART_DATA",
+    }),
     postOrderApi() {
       if (this.name == "") {
         alert("請填寫姓名");
@@ -106,7 +109,7 @@ export default {
       }
 
       this.postOrder({
-        amount: this.amount,
+        amount: String(this.amount),
         paidUserName: this.name,
         paidUserGender: this.gender,
         paidUserPhone: this.phone,
@@ -116,6 +119,7 @@ export default {
         frontendUrl: window.location.origin + "/shopped",
       })
         .then((res) => {
+          this.clearShopCartData([]);
           window.location.href = res.item;
         })
         .catch((e) => {

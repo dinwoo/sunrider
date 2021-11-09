@@ -44,7 +44,7 @@
         .input-title
           span.red *
           p 地址
-        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機" v-model="phone")
+        input.input-style(type="text" placeholder="兌換用，請務必輸入真實地址" v-model="address")
       label.input-row
         .input-title
           p 會員編號

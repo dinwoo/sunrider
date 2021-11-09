@@ -74,7 +74,7 @@ export default {
   methods: {
     ...mapActions(["getCountDown", "getLoginToken"]),
     getLoginTokenApi() {
-      Promise.all([this.getCountDown()])
+      Promise.all([this.getCountDown(), this.getLoginToken()])
         .then(() => {
           console.log("success");
           this.time = Math.floor(this.countDownTime / 60);

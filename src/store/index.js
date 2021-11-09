@@ -62,8 +62,8 @@ export default new Vuex.Store({
       });
     },
     SET_TOKEN(state, data) {
-      window.localStorage.setItem("id_token", data.token);
-      state.token = data.token;
+      window.localStorage.setItem("id_token", data);
+      state.token = data;
     },
     SET_PRODUCT_LIST(state, data) {
       state.productList = data.items;
@@ -90,10 +90,15 @@ export default new Vuex.Store({
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
             if (data.success) {
-              context.commit("SET_TOKEN", data.item);
+              context.commit("SET_TOKEN", data.item.token);
               resolve();
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -113,7 +118,12 @@ export default new Vuex.Store({
               context.commit("SET_COUNT_DOWN_TIME", data.item.countdownSeconds);
               resolve();
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -133,7 +143,12 @@ export default new Vuex.Store({
               context.commit("SET_COUNT_DOWN_TIME", data.item.countdownSeconds);
               resolve(data.item);
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -153,7 +168,12 @@ export default new Vuex.Store({
               // context.commit("SET_PRODUCT_LIST", data);
               resolve(data);
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -173,7 +193,12 @@ export default new Vuex.Store({
               context.commit("SET_ORDER_LIST", data);
               resolve();
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -212,7 +237,12 @@ export default new Vuex.Store({
               // context.commit("SET_ORDER_LIST", data);
               resolve(data);
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -249,7 +279,12 @@ export default new Vuex.Store({
               // context.commit("SET_ORDER_LIST", data);
               resolve(data);
             } else {
-              alert(data.error.message);
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
             }
           })
           .catch(({ response }) => {
@@ -286,7 +321,13 @@ export default new Vuex.Store({
               // context.commit("SET_ORDER_LIST", data);
               resolve(data);
             } else {
-              // alert(data.error.message);
+              //
+              if (data.error.code == "userVerificationError") {
+                context.commit("SET_TOKEN", "");
+                reject("userVerificationError");
+              } else {
+                alert(data.error.message);
+              }
               console.log(data.error.message);
             }
           })

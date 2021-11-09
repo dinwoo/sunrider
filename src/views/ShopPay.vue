@@ -88,13 +88,19 @@ export default {
   },
   created() {},
   mounted() {
-    this.lineLogin("1655134709-GB4Jo0MM")
-      .then(() => {
-        console.log("success");
-      })
-      .catch(() => {
-        console.log("error");
-      });
+    if (!this.shopCartData.length) {
+      this.$router.push({ name: "Product" });
+    } else {
+      if (this.token == "") {
+        this.lineLogin("1655134709-GB4Jo0MM")
+          .then(() => {
+            console.log("success");
+          })
+          .catch(() => {
+            console.log("error");
+          });
+      }
+    }
   },
   methods: {
     ...mapActions(["postOrder"]),

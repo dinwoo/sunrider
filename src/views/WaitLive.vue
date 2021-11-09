@@ -45,17 +45,24 @@ export default {
   },
   created() {},
   mounted() {
-    this.lineLogin("1655134709-nL54ekll")
-      .then(() => {
-        this.checkLiveStatusApi();
-        console.log("success");
-      })
-      .catch(() => {
-        console.log("error");
-      });
+    this.init();
   },
   methods: {
     ...mapActions(["checkLiveStatus"]),
+    init() {
+      if (this.token == "") {
+        this.lineLogin("1655134709-nL54ekll")
+          .then(() => {
+            this.checkLiveStatusApi();
+            console.log("success");
+          })
+          .catch(() => {
+            console.log("error");
+          });
+      } else {
+        this.checkLiveStatusApi();
+      }
+    },
     checkLiveStatusApi() {
       this.checkLiveStatus()
         .then((res) => {
@@ -70,6 +77,9 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+          if (e == "userVerificationError") {
+            this.init();
+          }
           console.log("fail");
         });
     },

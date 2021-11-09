@@ -4,7 +4,7 @@
     figure
       img(src="@/assets/images/logo-country.svg")
     .slogan-ch 百年傳承 40載起
-    .slogan-en Century Heritage, Successor Innovation
+    //- .slogan-en Century Heritage, Successor Innovation
     .timer
       .timer-title 直播倒數
       .timer-box
@@ -38,7 +38,7 @@
       | 凡買票、參加即可享只送不賣的超值好禮
       br
       | 誠摯邀您一同參與
-    a.main-btn(href="https://liff.line.me/1655134709-GYX5yKgg") 前往購票
+    router-link.main-btn(:to="{name:'Product'}") 前往購票
 
 </template>
 

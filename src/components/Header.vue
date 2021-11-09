@@ -16,8 +16,7 @@ header
       )
         include ../assets/icon/icon-menu.pug
   .menu(:class="{'active':showMenu}")
-    //- .menu-item(@click="goProductPage")
-    a.menu-item(href="https://liff.line.me/1655134709-GYX5yKgg")
+    router-link.menu-item(:to="{name:'Product'}")
       p 購票
       .arrow
         include ../assets/icon/icon-arrow-r.pug
@@ -37,7 +36,11 @@ header
           :key="index"
           :shopCartItem="item"
         )
-        .calculate-box
+        .empty(v-if="!shopCartData.length")
+          p
+            | 購物車尚未有產品，
+            span.go-product(@click="continueBuy") 前去購買
+        .calculate-box(v-else)
           .container
             .title Total
             .sum-price NT${{amount}}
@@ -205,6 +208,15 @@ header
         .product-item
           & + .product-item
             margin-top: 45px
+        .empty
+          padding: 2rem 0
+          text-align: center
+          p
+            font-size: 1.2rem
+            .go-product
+              cursor: pointer
+              display: inline-block
+              text-decoration: underline
         .calculate-box
           width: 100%
           padding-bottom: 40px

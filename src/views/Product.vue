@@ -48,13 +48,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.lineLogin("1655134709-GYX5yKgg")
-      .then(() => {
-        this.getProductApi();
-      })
-      .catch(() => {
-        console.log("失敗");
-      });
+    this.init();
   },
   methods: {
     ...mapActions(["getLoginToken", "getProduct"]),
@@ -62,6 +56,19 @@ export default {
       setShopCart: "SET_SHOPCART",
       addShopCartData: "ADD_SHOPCART_DATA",
     }),
+    init() {
+      if (this.token == "") {
+        this.lineLogin("1655134709-GYX5yKgg")
+          .then(() => {
+            this.getProductApi();
+          })
+          .catch(() => {
+            console.log("失敗");
+          });
+      } else {
+        this.getProductApi();
+      }
+    },
     getProductApi() {
       Promise.all([this.getProduct()])
         .then((res) => {
@@ -73,6 +80,9 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+          if (e == "userVerificationError") {
+            this.init();
+          }
           console.log("fail");
         });
     },

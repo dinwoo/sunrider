@@ -53,16 +53,23 @@ export default {
   },
   created() {},
   mounted() {
-    this.lineLogin("1655134709-vmly6mxx")
-      .then(() => {
-        this.getOrderApi();
-      })
-      .catch(() => {
-        console.log("失敗");
-      });
+    this.init();
   },
   methods: {
     ...mapActions(["getOrder"]),
+    init() {
+      if (this.token == "") {
+        this.lineLogin("1655134709-vmly6mxx")
+          .then(() => {
+            this.getOrderApi();
+          })
+          .catch(() => {
+            console.log("失敗");
+          });
+      } else {
+        this.getOrderApi();
+      }
+    },
     getOrderApi() {
       this.getOrder()
         .then(() => {
@@ -70,6 +77,9 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+          if (e == "userVerificationError") {
+            this.init();
+          }
           console.log("fail");
         });
     },

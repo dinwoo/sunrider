@@ -53,37 +53,33 @@ export default {
     },
     lineLogin(liffId) {
       return new Promise((resolve, reject) => {
-        if (this.token == "") {
-          liff
-            .init({
-              liffId,
-            })
-            .then(() => {
-              if (!liff.isLoggedIn()) {
-                console.log("尚未登入Line");
-                liff.login({});
-              } else {
-                liff
-                  .getProfile()
-                  .then((profile) => {
-                    this.$store.commit("SET_LINE_PROFILE", profile);
-                    return this.getLoginToken();
-                  })
-                  .then(() => {
-                    resolve();
-                  })
-                  .catch((err) => {
-                    console.log("error", err);
-                  });
-              }
-            })
-            .catch((err) => {
-              reject(false);
-              console.log(err);
-            });
-        } else {
-          resolve();
-        }
+        liff
+          .init({
+            liffId,
+          })
+          .then(() => {
+            if (!liff.isLoggedIn()) {
+              console.log("尚未登入Line");
+              liff.login({});
+            } else {
+              liff
+                .getProfile()
+                .then((profile) => {
+                  this.$store.commit("SET_LINE_PROFILE", profile);
+                  return this.getLoginToken();
+                })
+                .then(() => {
+                  resolve();
+                })
+                .catch((err) => {
+                  console.log("error", err);
+                });
+            }
+          })
+          .catch((err) => {
+            reject(false);
+            console.log(err);
+          });
       });
     },
   },

@@ -85,16 +85,23 @@ export default {
   },
   beforeDestroy() {},
   mounted() {
-    this.lineLogin("1655134709-Ek78nNdd")
-      .then(() => {
-        this.checkLiveStatusApi();
-      })
-      .catch(() => {
-        console.log("失敗");
-      });
+    this.init();
   },
   methods: {
     ...mapActions(["checkLiveStatus", "postBinding"]),
+    init() {
+      if (this.token == "") {
+        this.lineLogin("1655134709-Ek78nNdd")
+          .then(() => {
+            this.checkLiveStatusApi();
+          })
+          .catch(() => {
+            console.log("失敗");
+          });
+      } else {
+        this.checkLiveStatusApi();
+      }
+    },
     checkLiveStatusApi() {
       this.checkLiveStatus()
         .then((res) => {
@@ -107,6 +114,9 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+          if (e == "userVerificationError") {
+            this.init();
+          }
           console.log("fail");
         });
     },

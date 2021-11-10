@@ -51,7 +51,7 @@ export default {
     ...mapActions(["checkLiveStatus"]),
     init() {
       if (this.token == "") {
-        this.lineLogin("1655134709-nL54ekll")
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_WAITLIVE)
           .then(() => {
             this.checkLiveStatusApi();
             console.log("success");

@@ -14,6 +14,9 @@
   section.main
     .wrapper
       .title 請勾選欲退票的品項
+      .empty(v-if="!refundList.length")
+        p
+          | 無可以退票的品項
       .refund-box
         label.refund-item(v-for="ticket in refundList" :key="ticket.ticketId")
           input(type="checkbox" v-model="refundCheckList" :value="ticket")
@@ -69,7 +72,10 @@
           .check
             input(type="checkbox" v-model="check")
             p 我已閱讀並同意退票說明及注意事項
-      .main-btn(@click="postRefundApi") 送出退票申請
+      .main-btn(
+        :class="{'disable':!refundList.length}"
+        @click="postRefundApi"
+      ) 送出退票申請
 </template>
 
 <script>
@@ -82,12 +88,12 @@ export default {
   data() {
     return {
       refundCheckList: [],
-      name: "test name",
-      phone: "0987654321",
-      email: "test@test.com",
-      cardNum1: "1234",
-      cardNum2: "5678",
-      address: "台北市",
+      name: "",
+      phone: "",
+      email: "",
+      cardNum1: "",
+      cardNum2: "",
+      address: "",
       check: true,
     };
   },
@@ -138,7 +144,7 @@ export default {
     ...mapActions(["getOrder", "postRefund"]),
     init() {
       if (this.token == "") {
-        this.lineLogin("1655134709-g4jlYvqq")
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_REFUND)
           .then(() => {
             this.getOrderApi();
           })
@@ -163,7 +169,10 @@ export default {
         });
     },
     postRefundApi() {
-      if (!this.refundCheckList.length) {
+      if (!this.refundList.length) {
+        alert("無可以退票的品項");
+        return false;
+      } else if (!this.refundCheckList.length) {
         alert("請選擇欲退票品項");
         return false;
       } else if (this.name == "") {
@@ -265,6 +274,10 @@ export default {
         margin-bottom: 30px
         font-size: 1.1rem
         line-height: 28px
+        text-align: left
+      .empty
+        p
+          padding: 2rem 0
       .refund-box
         text-align: left
         .refund-item
@@ -365,6 +378,10 @@ export default {
             p
               font-size: 0.8rem
               color: $gray-001
+      .disable
+        color: #999
+        border: 1px solid #ccc
+        background-color: #eee
     +rwd(540px)
       .wrapper
         padding: 20px

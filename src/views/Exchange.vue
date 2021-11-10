@@ -66,15 +66,15 @@ export default {
   props: {},
   data() {
     return {
-      code: "12345",
-      name: "testname",
-      phone: "0987654321",
+      code: "",
+      name: "",
+      phone: "",
       year: null,
       month: null,
       day: null,
-      address: "台北市",
-      memberCode: "123456",
-      memberRank: "1",
+      address: "",
+      memberCode: "",
+      memberRank: "",
     };
   },
   computed: {
@@ -91,7 +91,7 @@ export default {
     ...mapActions(["checkLiveStatus", "postBinding"]),
     init() {
       if (this.token == "") {
-        this.lineLogin("1655134709-Ek78nNdd")
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_EXCHANGE)
           .then(() => {
             this.checkLiveStatusApi();
           })

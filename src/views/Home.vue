@@ -17,6 +17,9 @@
         .timer-item
           .number {{countDownMinute}}
           .unit 分鐘
+        //- .timer-item
+        //-   .number {{countDownSecond}}
+        //-   .unit 秒
   section.intro
     .title 活動亮點
     .info

@@ -1,5 +1,5 @@
 <template lang="pug">
-.default-wrapper
+.default-wrapper(v-show="!isLoading")
   Header
   .default-container
     router-view
@@ -21,7 +21,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["shopCartData"]),
+    ...mapState(["isLoading", "shopCartData"]),
   },
   mounted() {
     if (JSON.parse(localStorage.getItem("shopCartData")) !== null) {

@@ -9,7 +9,7 @@ export default new Vuex.Store({
     token: localStorage.getItem("id_token") || "",
     isLineLogin: false,
     lineData: {
-      lineId: "test_lineId",
+      lineId: "",
       name: "",
       profilePicUrl: "",
     },

@@ -64,12 +64,12 @@ export default {
   mixins: [],
   data() {
     return {
-      name: "test name",
-      gender: "male",
-      phone: "0987654321",
-      email: "test@test.com",
-      memberCode: "123456",
-      check: true,
+      name: "",
+      gender: "",
+      phone: "",
+      email: "",
+      memberCode: "",
+      check: false,
     };
   },
   computed: {
@@ -88,18 +88,14 @@ export default {
   },
   created() {},
   mounted() {
-    if (!this.shopCartData.length) {
-      this.$router.push({ name: "Product" });
-    } else {
-      if (this.token == "") {
-        this.lineLogin("1655134709-GB4Jo0MM")
-          .then(() => {
-            console.log("success");
-          })
-          .catch(() => {
-            console.log("error");
-          });
-      }
+    if (this.token == "") {
+      this.lineLogin(process.env.VUE_APP_LIFF_ID_SHOPPAY)
+        .then(() => {
+          console.log("success");
+        })
+        .catch(() => {
+          console.log("error");
+        });
     }
   },
   methods: {
@@ -142,7 +138,14 @@ export default {
         });
     },
   },
-  watch: {},
+  watch: {
+    shopCartData(val) {
+      if (!val.length) {
+        alert("購物車為空，將回到購票頁");
+        this.$router.push({ name: "Product" });
+      }
+    },
+  },
 };
 </script>
 

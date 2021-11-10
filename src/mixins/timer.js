@@ -20,6 +20,10 @@ export default {
       let min = Math.floor(((this.countDownTime / 60) % 1440) % 60);
       return min < 10 ? "0" + min : String(min);
     },
+    countDownSecond() {
+      let sec = Math.floor(this.countDownTime);
+      return sec < 10 ? "0" + sec : String(sec);
+    },
   },
   mounted() {
     //監聽瀏覽器重整及關閉前將計時器移除

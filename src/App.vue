@@ -1,6 +1,7 @@
 <template lang="pug">
 #app
-  component(:is="$route.meta.layout")
+  template(v-show="!isLoading")
+    component(:is="$route.meta.layout")
   .loading-mask(v-if="isLoading")
     figure.loding-icon
       //- img(src="@/assets/images/loading-icon.svg")
@@ -101,8 +102,9 @@ input:focus
     .check
       width: calc(100% - 80px)
       input
+        width: 15px
       p
-        width: calc(100% - 15px)
+        width: calc(100% - 20px)
         // padding-left: 10px
         box-sizing: border-box
 

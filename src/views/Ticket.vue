@@ -4,6 +4,10 @@
     .icon
       include ../assets/icon/icon-list.pug
     p 購票紀錄
+  .empty(v-if="!orderList.length")
+    p
+      | 無購票紀錄，
+      router-link.go-product(:to="{name:'Product'}") 繼續前往購票
   .order-item(v-for="order in orderList" :key="order.id")
     .info-box
       .info
@@ -34,7 +38,7 @@
           ) {{ticket.bindingUserId?'已綁定':'未綁定'}}
   .cancel-ticket
     p 線上直播大會當日至大會日前第7日內辦理退票者，業者得不予退票
-    router-link.btn(:to="{name:'Refund'}") 申請退票
+    router-link.btn(:to="{name:'Refund'}" v-if="orderList.length") 申請退票
 </template>
 
 <script>
@@ -59,7 +63,7 @@ export default {
     ...mapActions(["getOrder"]),
     init() {
       if (this.token == "") {
-        this.lineLogin("1655134709-vmly6mxx")
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_TICKET)
           .then(() => {
             this.getOrderApi();
           })
@@ -116,6 +120,16 @@ export default {
       font-weight: bold
       color: $gray-001
       +dib
+  .empty
+    min-height: calc(100vh - 420px)
+    p
+      padding: 2rem 0
+      font-size: 1.2rem
+      text-align: center
+      .go-product
+        cursor: pointer
+        display: inline-block
+        text-decoration: underline
   .info-box
     padding: 25px 40px
     .info
@@ -224,6 +238,8 @@ export default {
       p
         // font-size: 1rem
         // line-height: 28px
+    .empty
+      min-height: calc(100vh - 280px)
     .info-box
       padding: 20px
       .info

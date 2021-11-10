@@ -23,11 +23,11 @@
         figure.product-pic
           img(:src="product.imageUrl")
         .number-box
-          .number-btn.minus(@click="product.num==0?0:product.num--") －
+          .number-btn.minus(@click="product.num==1?1:product.num--") －
           input(type="text" v-model.number="product.num")
           .number-btn.plus(@click="product.num++") ＋
         .price NT${{product.price}}
-        .add-cart(@click="addShopCartData(product);setShopCart(true)") 加入購物車
+        .add-cart(@click="addToCart(product)") 加入購物車
 </template>
 
 <script>
@@ -58,7 +58,7 @@ export default {
     }),
     init() {
       if (this.token == "") {
-        this.lineLogin("1655134709-GYX5yKgg")
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_PRODUCT)
           .then(() => {
             this.getProductApi();
           })
@@ -85,6 +85,15 @@ export default {
           }
           console.log("fail");
         });
+    },
+    addToCart(product) {
+      console.log(product);
+      if (product.num < 1) {
+        alert("數量不得小於1");
+        return;
+      }
+      this.addShopCartData(product);
+      this.setShopCart(true);
     },
   },
   watch: {},

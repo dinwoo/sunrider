@@ -90,7 +90,6 @@ export default {
       // if (this.isLineLogin) {
       //   this.$router.push({ name: "Product" });
       // } else {
-      location.replace("https://liff.line.me/1655134709-GYX5yKgg");
       // }
     },
   },

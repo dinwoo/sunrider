@@ -1,12 +1,15 @@
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import liff from "@line/liff";
 
 export default {
   computed: {
-    ...mapState(["token", "countDownTime"]),
+    ...mapState(["token", "countDownTime", "isLoading"]),
   },
   methods: {
     ...mapActions(["getLoginToken"]),
+    ...mapMutations({
+      setLoading: "SET_LOADING",
+    }),
     compileFilePath(file) {
       return require(`@/assets/images/${file}`);
     },
@@ -52,6 +55,7 @@ export default {
       return formatDate(date);
     },
     lineLogin(liffId) {
+      // this.setLoading(true);
       return new Promise((resolve, reject) => {
         liff
           .init({

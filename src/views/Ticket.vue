@@ -35,7 +35,7 @@
             v-clipboard:copy="ticket.code"
             v-clipboard:success="onCopy"
             v-clipboard:error="onError"
-          ) {{ticket.bindingUserId?'已綁定':'未綁定'}}
+          ) {{ticket.bindingUserId?'已綁定':'複製序號'}}
   .cancel-ticket
     p 線上直播大會當日至大會日前第7日內辦理退票者，業者得不予退票
     router-link.btn(:to="{name:'Refund'}" v-if="orderList.length") 申請退票

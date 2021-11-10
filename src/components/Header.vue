@@ -16,21 +16,22 @@ header
       )
         include ../assets/icon/icon-menu.pug
   .menu(:class="{'active':showMenu}")
-    router-link.menu-item(:to="{name:'Product'}")
+    .menu-item(@click="goProductPage")
       p 購票
       .arrow
         include ../assets/icon/icon-arrow-r.pug
-    router-link.menu-item(:to="{name:'Exchange'}")
+    .menu-item(@click="goExchangePage")
       p 觀看直播
       .arrow
         include ../assets/icon/icon-arrow-r.pug
-    a.menu-item(href="" target="_blank") 
+    a.menu-item(href="https://sunrider.com.tw/" target="_blank") 
       p SUBRIDER官網
       .arrow
         include ../assets/icon/icon-arrow-r.pug
   .shopcart(:class="{'active':showShopCart}")
     .shopcart-box
       .warpper
+        .close(@click="setShopCart(false)")
         ShopcartItem.product-item(
           v-for="(item,index) in shopCartData"
           :key="index"
@@ -87,10 +88,22 @@ export default {
       this.$router.push({ name: "Product" });
     },
     goProductPage() {
-      // if (this.isLineLogin) {
-      //   this.$router.push({ name: "Product" });
-      // } else {
-      // }
+      if (this.$route.name == "Product") {
+        this.setMenu(false);
+      } else {
+        this.$router.push({ name: "Product" });
+      }
+    },
+    goExchangePage() {
+      if (
+        this.$route.name == "Exchange" ||
+        this.$route.name == "WaitLive" ||
+        this.$route.name == "Live"
+      ) {
+        this.setMenu(false);
+      } else {
+        this.$router.push({ name: "Exchange" });
+      }
     },
   },
 };
@@ -204,6 +217,25 @@ header
         padding-bottom: 250px
         box-sizing: border-box
         position: relative
+        .close
+          width: 30px
+          height: 30px
+          position: absolute
+          top: 10px
+          left: -30px
+          transform: rotate(45deg)
+          cursor: pointer
+          &:before,&:after
+            content: ''
+            display: block
+            background-color: $red-001
+            +pstc0
+          &:before
+            width: 4px
+            height: 100%
+          &:after
+            width: 100%
+            height: 4px
         .product-item
           & + .product-item
             margin-top: 45px

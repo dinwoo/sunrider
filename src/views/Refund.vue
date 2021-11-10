@@ -42,7 +42,7 @@
           .input-title
             span.red *
             p 聯絡手機
-          input.input-style(type="text" placeholder="需同購買人聯絡手機" v-model="phone")
+          input.input-style(type="text" placeholder="需同購買人聯絡手機" v-model="phone" maxLength="10")
         label.input-row
           .input-title
             span.red *
@@ -181,8 +181,14 @@ export default {
       } else if (this.phone == "") {
         alert("請填寫聯絡手機");
         return false;
+      } else if (!this.verifyPhone(this.phone)) {
+        alert("聯絡手機格式錯誤");
+        return false;
       } else if (this.email == "") {
         alert("請填寫Email");
+        return false;
+      } else if (!this.verifyEmail(this.email)) {
+        alert("Email格式錯誤");
         return false;
       } else if (this.cardNum1 == "" || this.cardNum2 == "") {
         alert("請填寫信用卡資訊");

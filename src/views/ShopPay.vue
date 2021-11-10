@@ -10,6 +10,7 @@
         v-for="(item,index) in shopCartData"
         :key="index"
         :shopCartItem="item"
+        @removeProduct="removeProduct"
       )
     .title
       .icon
@@ -88,6 +89,10 @@ export default {
   },
   created() {},
   mounted() {
+    if (!this.shopCartData.length) {
+      alert("購物車為空，將回到購票頁");
+      this.$router.push({ name: "Product" });
+    }
     if (this.token == "") {
       this.lineLogin(process.env.VUE_APP_LIFF_ID_SHOPPAY)
         .then(() => {
@@ -107,11 +112,20 @@ export default {
       if (this.name == "") {
         alert("請填寫姓名");
         return false;
+      } else if (this.gender == "") {
+        alert("請勾選性別");
+        return false;
       } else if (this.phone == "") {
         alert("請填寫聯絡手機");
         return false;
+      } else if (!this.verifyPhone(this.phone)) {
+        alert("聯絡手機格式錯誤");
+        return false;
       } else if (this.email == "") {
         alert("請填寫Email");
+        return false;
+      } else if (!this.verifyEmail(this.email)) {
+        alert("Email格式錯誤");
         return false;
       } else if (!this.check) {
         alert("請閱讀並同意購票說明及注意事項");
@@ -137,15 +151,21 @@ export default {
           console.log("fail");
         });
     },
-  },
-  watch: {
-    shopCartData(val) {
-      if (!val.length) {
+    removeProduct() {
+      if (!this.shopCartData.length) {
         alert("購物車為空，將回到購票頁");
         this.$router.push({ name: "Product" });
       }
     },
+    // checkPhone(e) {
+    //   console.log(e);
+    //   if (e.keyCode < 48 || e.keyCode > 57) {
+    //     console.log(this.phone);
+    //     this.phone.replace(e.key, "");
+    //   }
+    // },
   },
+  watch: {},
 };
 </script>
 

@@ -1,10 +1,10 @@
 <template lang="pug">
 .success-wrapper
-  figure.pic
+  figure.pic(v-if="showIcon")
     img(src="@/assets/images/icon-check.svg")
   .title {{title}}
   p(v-html="content")
-  router-link.btn(:to="{name:'Ticket'}" v-if="showBtn") 前往查看票券序號
+  router-link.btn(:to="{name:routeLink}" v-if="showBtn") {{btnTxt}}
 </template>
 
 <script>
@@ -12,9 +12,12 @@ export default {
   name: "Success",
   components: {},
   props: {
+    showIcon: Boolean,
     title: String,
     content: String,
     showBtn: Boolean,
+    routeLink: String,
+    btnTxt: String,
   },
   data() {
     return {};

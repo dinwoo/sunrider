@@ -25,7 +25,7 @@
         .input-title
           span.red *
           p 聯絡手機
-        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機" v-model="phone")
+        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機" v-model="phone" maxLength="10")
       label.input-row
         .input-title
           span.red *
@@ -129,6 +129,9 @@ export default {
         return false;
       } else if (this.phone == "") {
         alert("請填寫聯絡手機");
+        return false;
+      } else if (!this.verifyPhone(this.phone)) {
+        alert("聯絡手機格式錯誤");
         return false;
       } else if (this.year == null || this.month == null || this.day == null) {
         alert("請填寫生日");

@@ -5,7 +5,7 @@
   .product-info
     .title {{shopCartItem.name}}
     //- .product-name {{shopCartItem.name}}
-    .trash(@click="removeShopCartData(shopCartItem.id)")
+    .trash(@click="removeShopCartData(shopCartItem.id);$emit('removeProduct')")
       include ../assets/icon/icon-trash.pug
     .number-box
       .number-btn.minus(@click="shopCartItem.num==1?removeShopCartData(shopCartItem.id):shopCartItem.num--") －

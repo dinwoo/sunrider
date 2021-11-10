@@ -24,29 +24,29 @@
           p 姓 名
         input.input-style(type="text" v-model="name")
       .gender-box
-        .gender
+        label.gender
           input(type="radio" name="gender" v-model="gender" value="female")
           p 女士
-        .gender
+        label.gender
           input(type="radio" name="gender" v-model="gender" value="male")
           p 先生
       label.input-row
         .input-title
           span.red *
           p 聯絡手機
-        input.input-style(type="phone" v-model="phone" maxLength="10")
+        input.input-style(type="phone" placeholder="ex:0911222333" v-model="phone" maxLength="10")
       label.input-row
         .input-title
           span.red *
           p Email
-        input.input-style(type="email" v-model="email")
+        input.input-style(type="email" placeholder="ex:name@example.com" v-model="email")
       label.input-row
         .input-title
           p 會員編號
         input.input-style(type="text" v-model="memberCode")
       .input-row
         .input-title
-        .check
+        label.check
           input(type="checkbox" v-model="check")
           p 我已閱讀並同意購票說明及注意事項
       .main-btn(@click="postOrderApi") 前往付款
@@ -109,6 +109,10 @@ export default {
       clearShopCartData: "CLEAR_SHOPCART_DATA",
     }),
     postOrderApi() {
+      if (!this.shopCartData.length) {
+        alert("購物車為空，將回到購票頁");
+        this.$router.push({ name: "Product" });
+      }
       if (this.name == "") {
         alert("請填寫姓名");
         return false;

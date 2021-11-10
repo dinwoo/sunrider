@@ -3,14 +3,16 @@
   section.information
     .title 退票說明
     .highlight 申請退票前，請詳細閱讀以下退票說明
-    .list 1.若購買套票，退票亦需整個套票退票，無法退單張票券。
-    .list 2.任一組票券序號若已綁定使用者，視同票券已使用，業者得不予退票，套票亦同。
-    .list 3.線上直播大會當日前第7日前辦理退票者，手續費為100元。
+    .list 1.若購買套票，退票亦需整個套組退換，無法拆分或退單張票券。
+    .list 2.任一票券序號若已綁定使用者，視同票券已使用，業者得不予退票，套組內容亦同。
+    .list 3.早鳥優惠套組(5人套組及10人套組)退換申請辦理退換於大會日前第7日(11/27含)辦理最終退換，於大會日第7日後辦理退換者，業者得不予退換。
+    .list 4.單人套組退換申請請於大會日(12/4)前3日前辦理退票，大會日起算前3日(12/1含)後辦理退換者，業者得不予退票
+    .list 5.辦理退換者依每筆訂單收取手續費100元，扣除退票手續費後刷退至原刷卡購票之信用卡。
     .remind-title 注意事項
-    .list ・非供自用或購買票券而轉售圖利者，企業經營者得不予退。
-    .list ・為維護購票者個資安全，本退票服務僅限購票者本人申請，勾選欲退票的品 項後，並須填妥退票申請書將以下資料完整提供辦理，經收單後，視同您同意本公司進行相關退票作業，包含電話聯繫、缺(補)件作業等並直接辦理退票作業。
+    .list ・非供自用或購買票券而轉售圖利者，企業經營者得不予退換。
+    .list ・為維護購票者個資安全，本退票服務僅限購票者本人申請，勾選欲退換之品項，並須填妥退票申請書之完整資料以提供辦理，經收單後，視同您同意本公司進行相關退票作業，包含電話聯繫、缺(補)件作業等並直接辦理退票作業。
     .list ・扣除退票手續費後票款金額，於確認退票申請後約7-10個工作日刷退至原刷卡購票之信用卡帳戶，恕無法以現金或其他指定方式退還，退款時間將依發卡行及銀行之作業時間為準約需10-14工作天，請主動向銀行端查詢退款進度。
-    .list ・系統服務費、轉帳及金流手續費非屬票價部分不在退費範圍之內。
+    .list ・系統服務費及金流手續費非屬票券部分不在退費範圍之內。
   section.main
     .wrapper
       .title 請勾選欲退票的品項
@@ -42,12 +44,12 @@
           .input-title
             span.red *
             p 聯絡手機
-          input.input-style(type="text" placeholder="需同購買人聯絡手機" v-model="phone" maxLength="10")
+          input.input-style(type="text" placeholder="需同購買人聯絡手機 (ex:0911222333)" v-model="phone" maxLength="10")
         label.input-row
           .input-title
             span.red *
             p Email
-          input.input-style(type="text" placeholder="需同購買人Email" v-model="email")
+          input.input-style(type="text" placeholder="需同購買人Email (ex:name@example.com)" v-model="email")
         label.input-row
           .input-title
             span.red *

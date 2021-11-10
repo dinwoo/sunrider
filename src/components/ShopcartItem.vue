@@ -8,7 +8,7 @@
     .trash(@click="removeShopCartData(shopCartItem.id);$emit('removeProduct')")
       include ../assets/icon/icon-trash.pug
     .number-box
-      .number-btn.minus(@click="shopCartItem.num==1?removeShopCartData(shopCartItem.id):shopCartItem.num--") －
+      .number-btn.minus(@click="shopCartItem.num==1?removeProductHandler(shopCartItem):shopCartItem.num--") －
       input(type="text" v-model.number="shopCartItem.num")
       .number-btn.plus(@click="shopCartItem.num++") ＋
     .price NT${{shopCartItem.price}}
@@ -33,6 +33,10 @@ export default {
     ...mapMutations({
       removeShopCartData: "REMOVE_SHOPCART_DATA",
     }),
+    removeProductHandler(shopCartItem) {
+      this.removeShopCartData(shopCartItem.id);
+      this.$emit("removeProduct");
+    },
   },
 };
 </script>

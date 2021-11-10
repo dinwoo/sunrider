@@ -85,7 +85,9 @@ export default {
     },
     continueBuy() {
       this.setShopCart(false);
-      this.$router.push({ name: "Product" });
+      if (this.$route.name != "Product") {
+        this.$router.push({ name: "Product" });
+      }
     },
     goProductPage() {
       if (this.$route.name == "Product") {

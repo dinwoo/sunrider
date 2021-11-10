@@ -208,6 +208,7 @@ export default {
           box-sizing: border-box
           +dib
           &.done
+            pointer-events: none
             color: $gray-003
             border: 1px solid $gray-003
   .cancel-ticket

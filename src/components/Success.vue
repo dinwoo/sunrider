@@ -2,6 +2,8 @@
 .success-wrapper
   figure.pic(v-if="showIcon")
     img(src="@/assets/images/icon-check.svg")
+  figure.pic.fail(v-else)
+    img(src="@/assets/images/times-circle-regular.svg")
   .title {{title}}
   p(v-html="content")
   router-link.btn(:to="{name:routeLink}" v-if="showBtn") {{btnTxt}}
@@ -41,6 +43,9 @@ export default {
   figure.pic
     width: 210px
     margin: auto
+    &.fail
+      width: 160px
+      margin: 0 auto 1rem
   .title
     font-size: 1.5rem
     letter-spacing: 1.5px

@@ -25,7 +25,7 @@
         .input-title
           span.red *
           p 聯絡手機
-        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機" v-model="phone" maxLength="10")
+        input.input-style(type="text" placeholder="兌換用，請務必輸入真實聯絡手機 (ex:0911222333)" v-model="phone" maxLength="10")
       label.input-row
         .input-title
           span.red *

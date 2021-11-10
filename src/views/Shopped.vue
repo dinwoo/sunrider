@@ -2,7 +2,7 @@
 .shopped-wrapper
   Success(
     :showIcon="isSuccess"
-    :title="isSuccess?'完成購票':'購票失敗'"
+    :title="isSuccess?'完成購票':'交易失敗'"
     :content="isSuccess?'3秒後自動跳轉查看票券序號<br>若未跳轉請點擊以下按鈕':`${$route.query.msg}<br>請重新訂購`"
     :showBtn="true"
     :routeLink="isSuccess?'Ticket':'Product'"
@@ -31,9 +31,11 @@ export default {
   },
   created() {},
   mounted() {
-    // setTimeout(() => {
-    //   this.$router.push({ name: "Ticket" });
-    // }, 3000);
+    if (this.isSuccess) {
+      setTimeout(() => {
+        this.$router.push({ name: "Ticket" });
+      }, 3000);
+    }
   },
   methods: {
     ...mapActions([""]),

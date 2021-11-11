@@ -2,9 +2,9 @@
 footer
   .copyright SUNRIDER 2021 All Rights Reserved.
   .link-box
-    .link 隱私權政策
+    a.link(href="https://sunrider.com.tw/privacy-policy/" target="_blank") 隱私權政策
     p |
-    .link 使用條款
+    a.link(href="https://sunrider.com.tw/terms-conditions/" target="_blank") 使用條款
 </template>
 
 <script>
@@ -28,6 +28,7 @@ footer
     padding-top: 20px
     .link,p
       margin: 0 30px
+      color: #fff
       +dib
   +rwd(540px)
     padding: 15px 0

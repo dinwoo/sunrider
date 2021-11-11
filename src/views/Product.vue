@@ -96,7 +96,6 @@ export default {
         });
     },
     addToCart(product) {
-      console.log(product);
       if (product.num < 1) {
         alert("數量不得小於1");
         return;

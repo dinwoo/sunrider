@@ -41,7 +41,7 @@ export default new Vuex.Store({
       state.shopCartData = value;
     },
     CLEAR_SHOPCART_DATA(state) {
-      localStorage.setItem("shopCartData", JSON.stringify([]));
+      // localStorage.setItem("shopCartData", JSON.stringify([]));
       state.shopCartData = [];
     },
     ADD_SHOPCART_DATA(state, data) {

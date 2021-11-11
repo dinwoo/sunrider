@@ -108,6 +108,11 @@ export default {
       }
     },
   },
+  watch: {
+    shopCartData(val) {
+      localStorage.setItem("shopCartData", JSON.stringify(val));
+    },
+  },
 };
 </script>
 
@@ -314,8 +319,13 @@ header
         padding: 64px 20px 0
         right: -100vw
         .warpper
-          padding-top: 20px
+          padding-top: 30px
           padding-bottom: 140px
+          .close
+            width: 20px
+            height: 20px
+            top: 5px
+            left: -15px
           .product-item
             & + .product-item
               margin-top: 25px

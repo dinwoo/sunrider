@@ -34,7 +34,7 @@
         .input-title
           span.red *
           p 聯絡手機
-        input.input-style(type="phone" placeholder="ex:0911222333" v-model="phone" maxLength="10")
+        input.input-style(type="phone" placeholder="ex:0911222333" v-model="phone" maxLength="10" @input="checkPhone")
       label.input-row
         .input-title
           span.red *
@@ -89,19 +89,21 @@ export default {
   },
   created() {},
   mounted() {
-    if (!this.shopCartData.length) {
-      alert("購物車為空，將回到購票頁");
-      this.$router.push({ name: "Product" });
-    }
-    if (this.token == "") {
-      this.lineLogin(process.env.VUE_APP_LIFF_ID_SHOPPAY)
-        .then(() => {
-          console.log("success");
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    }
+    this.$nextTick(() => {
+      if (!this.shopCartData.length) {
+        alert("購物車為空，將回到購票頁");
+        this.$router.push({ name: "Product" });
+      }
+      if (this.token == "") {
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_SHOPPAY)
+          .then(() => {
+            console.log("success");
+          })
+          .catch(() => {
+            console.log("error");
+          });
+      }
+    });
   },
   methods: {
     ...mapActions(["postOrder"]),
@@ -161,13 +163,9 @@ export default {
         this.$router.push({ name: "Product" });
       }
     },
-    // checkPhone(e) {
-    //   console.log(e);
-    //   if (e.keyCode < 48 || e.keyCode > 57) {
-    //     console.log(this.phone);
-    //     this.phone.replace(e.key, "");
-    //   }
-    // },
+    checkPhone(e) {
+      this.phone = e.target.value.replace(/[^\d]/g, "");
+    },
   },
   watch: {},
 };

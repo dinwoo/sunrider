@@ -27,9 +27,9 @@ export default {
     if (JSON.parse(localStorage.getItem("shopCartData")) !== null) {
       this.setShopCartData(JSON.parse(localStorage.getItem("shopCartData")));
     }
-    window.onbeforeunload = () => {
-      localStorage.setItem("shopCartData", JSON.stringify(this.shopCartData));
-    };
+    // window.onbeforeunload = () => {
+    //   localStorage.setItem("shopCartData", JSON.stringify(this.shopCartData));
+    // };
   },
   methods: {
     ...mapMutations({

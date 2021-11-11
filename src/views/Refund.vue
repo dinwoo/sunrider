@@ -44,7 +44,7 @@
           .input-title
             span.red *
             p 聯絡手機
-          input.input-style(type="text" placeholder="需同購買人聯絡手機 (ex:0911222333)" v-model="phone" maxLength="10")
+          input.input-style(type="text" placeholder="需同購買人聯絡手機 (ex:0911222333)" v-model="phone" maxLength="10" @input="checkPhone")
         label.input-row
           .input-title
             span.red *
@@ -56,13 +56,13 @@
             p 信用卡號
           .credit-card
             .card-num
-              input(type="text" maxlength="4" v-model="cardNum1")
+              input(type="text" maxlength="4" v-model="cardNum1" @input="checkCard1")
             .card-num
               input(type="text" value="****" disabled)
             .card-num
               input(type="text" value="****" disabled)
             .card-num
-              input(type="text" maxlength="4" v-model="cardNum2")
+              input(type="text" maxlength="4" v-model="cardNum2" @input="checkCard2")
           .remark 需同購買之信用卡號
         label.input-row
           .input-title
@@ -220,6 +220,15 @@ export default {
           console.log(e);
           console.log("fail");
         });
+    },
+    checkPhone(e) {
+      this.phone = e.target.value.replace(/[^\d]/g, "");
+    },
+    checkCard1(e) {
+      this.cardNum1 = e.target.value.replace(/[^\d]/g, "");
+    },
+    checkCard2(e) {
+      this.cardNum2 = e.target.value.replace(/[^\d]/g, "");
     },
   },
 };

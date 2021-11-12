@@ -2,7 +2,7 @@
 .home-wrapper
   section.banner
     figure
-      img(src="@/assets/images/logo-country.svg")
+      img(src="@/assets/images/logo-country.png")
     .slogan-ch 百年傳承 40載起
     //- .slogan-en Century Heritage, Successor Innovation
     .timer

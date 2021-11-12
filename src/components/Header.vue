@@ -25,7 +25,7 @@ header
       .arrow
         include ../assets/icon/icon-arrow-r.pug
     a.menu-item(href="https://sunrider.com.tw/" target="_blank") 
-      p SUBRIDER官網
+      p SUNRIDER官網
       .arrow
         include ../assets/icon/icon-arrow-r.pug
   .shopcart(:class="{'active':showShopCart}")

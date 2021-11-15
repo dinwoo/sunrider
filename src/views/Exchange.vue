@@ -51,7 +51,7 @@
       label.input-row
         .input-title
           p 會員編號
-        input.input-style(type="text" placeholder="" value="TW" v-model="memberCode")
+        input.input-style(type="text" placeholder="TW2xxxxxxxx" value="" v-model="memberCode")
       label.input-row
         .input-title
           p 級別

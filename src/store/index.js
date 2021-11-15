@@ -183,10 +183,10 @@ export default new Vuex.Store({
           });
       });
     },
-    getOrder(context) {
+    getOrder(context, refund) {
       context.commit("SET_LOADING", true);
       return new Promise((resolve, reject) => {
-        ApiService.get("order", "", {})
+        ApiService.get(`order${refund ? "?refund=1" : ""}`, "", {})
           .then(({ data }) => {
             context.commit("SET_LOADING", false);
             if (data.success) {

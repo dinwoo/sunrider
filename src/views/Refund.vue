@@ -158,7 +158,7 @@ export default {
       }
     },
     getOrderApi() {
-      this.getOrder()
+      this.getOrder(true)
         .then(() => {
           console.log("success");
         })

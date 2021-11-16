@@ -43,7 +43,7 @@
       label.input-row
         .input-title
           p 會員編號
-        input.input-style(type="text" v-model="memberCode")
+        input.input-style(type="text" placeholder="TW2xxxxxxxx" v-model="memberCode")
       .input-row
         .input-title
         label.check

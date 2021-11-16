@@ -4,20 +4,21 @@
     p 若需更換裝置觀看，請點擊右方“離開觀看”，可於另一裝置以相同票券序號登入觀看。
     .btn 離開觀看
   .live-box
+    iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
   .chatroom
     .title 聊天室
-    .chat-box
-      .chat-item(v-for="item in 15")
+    .chat-box#chatBox
+      .chat-item(v-for="chat in chatList")
         figure.user-pic
-          img(src="@/assets/images/user-pic.jpg")
+          img(:src="chat.url")
         .user-info
-          .name User01
-          .chat 聊天內容聊天內容聊天內容聊天內容聊天內容聊天內容
+          .name {{chat.lineId}}
+          .chat {{chat.message}}
     .insert-box
       figure.user-pic
         img(src="@/assets/images/user-pic.jpg")
-      input.insert-txt(type="text" placeholder="新增留言")
-      .send-btn 送出
+      input.insert-txt(type="text" placeholder="新增留言" v-model="userMsg")
+      .send-btn(@click="sendMsg") 送出
   .btn-box
     .main-btn 逛逛SUNRIDER商品
 
@@ -33,15 +34,85 @@ export default {
   props: {},
   mixins: [],
   data() {
-    return {};
+    return {
+      userMsg: "",
+      chatList: [
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+        {
+          lineId: "test",
+          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
+          message: "test",
+        },
+      ],
+    };
   },
   computed: {
     ...mapState(["isLoading"]),
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$nextTick(() => {
+      this.$socket.connect();
+    });
+  },
+  sockets: {
+    connect: () => {
+      console.log("聊天室連線");
+    },
+    disconnect: () => {
+      console.log("聊天室斷線");
+    },
+    ChatMessage(data) {
+      console.log(data);
+      this.chatList.push(data);
+      var chatBox = document.getElementById("chatBox");
+      setTimeout(() => {
+        chatBox.scrollTo({
+          top: chatBox.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 1);
+    },
+  },
   methods: {
     ...mapActions([""]),
+    sendMsg() {
+      this.$socket.emit("ChatMessage", {
+        lineId: this.userMsg,
+        url: `http://fakeimg.pl/60x60/eee/000000/?text=${this.userMsg}`,
+        message: this.userMsg,
+      });
+      this.userMsg = "";
+    },
   },
   watch: {},
 };
@@ -74,6 +145,7 @@ export default {
     width: 100%
     height: 370px
     background-color: #ccc
+    position: relative
   .chatroom
     width: 100%
     box-sizing: border-box

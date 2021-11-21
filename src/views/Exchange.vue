@@ -39,10 +39,10 @@
             option(v-for="year in 111" :key="year" :value="year+1910") {{year+1910}}
           select(v-model="month")
             option(value="null") 月份
-            option(v-for="month in 12" :key="month" :value="month") {{month}}
+            option(v-for="month in 12" :key="month" :value="month<10?`0${month}`:month") {{month}}
           select(v-model="day")
             option(value="null") 日期
-            option(v-for="day in 31" :key="day" :value="day") {{day}}
+            option(v-for="day in 31" :key="day" :value="day<10?`0${day}`:day") {{day}}
       label.input-row
         .input-title
           span.red *

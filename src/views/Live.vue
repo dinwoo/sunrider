@@ -12,13 +12,15 @@
         figure.user-pic
           img(:src="chat.url")
         .user-info
-          .name {{chat.lineId}}
+          .name {{chat.name}}
           .chat {{chat.message}}
     .insert-box
       figure.user-pic
-        img(src="@/assets/images/user-pic.jpg")
-      input.insert-txt(type="text" placeholder="新增留言" v-model="userMsg")
+        img(:src="this.lineData.profilePicUrl")
+      input.insert-txt(type="text" placeholder="新增留言" v-model="userMsg" @keyup.enter="sendMsg")
       .send-btn(@click="sendMsg") 送出
+    .disconnected(v-if="isDisconnected")
+      p 聊天室斷線，請重新整理
   .btn-box
     .main-btn 逛逛SUNRIDER商品
 
@@ -36,60 +38,29 @@ export default {
   data() {
     return {
       userMsg: "",
-      chatList: [
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-        {
-          lineId: "test",
-          url: `http://fakeimg.pl/60x60/eee/000000/?text=test`,
-          message: "test",
-        },
-      ],
+      chatList: [],
+      isDisconnected: false,
     };
   },
   computed: {
-    ...mapState(["isLoading"]),
+    ...mapState(["isLoading", "lineData"]),
   },
   created() {},
   mounted() {
     this.$nextTick(() => {
-      this.$socket.connect();
+      this.init();
     });
   },
   sockets: {
+    connecting: () => {
+      console.log("正在連接");
+    },
     connect: () => {
       console.log("聊天室連線");
     },
     disconnect: () => {
       console.log("聊天室斷線");
+      alert("聊天室斷線，請重新整理");
     },
     ChatMessage(data) {
       console.log(data);
@@ -105,10 +76,24 @@ export default {
   },
   methods: {
     ...mapActions([""]),
+    init() {
+      // if (this.token == "") {
+      this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
+        .then(() => {
+          this.$socket.connect();
+        })
+        .catch(() => {
+          console.log("失敗");
+        });
+      // } else {
+      //   this.$socket.connect();
+      // }
+    },
     sendMsg() {
       this.$socket.emit("ChatMessage", {
-        lineId: this.userMsg,
-        url: `http://fakeimg.pl/60x60/eee/000000/?text=${this.userMsg}`,
+        lineId: this.lineData.lineId,
+        name: this.lineData.name,
+        url: this.lineData.profilePicUrl,
         message: this.userMsg,
       });
       this.userMsg = "";
@@ -148,6 +133,7 @@ export default {
     position: relative
   .chatroom
     width: 100%
+    position: relative
     box-sizing: border-box
     .title
       padding: 20px 40px
@@ -207,6 +193,17 @@ export default {
         &:hover
           color: #fff
           background-color: $red-001
+    .disconnected
+      width: 100%
+      height: 100%
+      background-color: rgba(#000,.8)
+      position: absolute
+      top: 0
+      left: 0
+      p
+        font-size: 1.2rem
+        color: #fff
+        +pstc5
   .btn-box
     padding: 50px 0
     text-align: center

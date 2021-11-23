@@ -7,7 +7,7 @@
     iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
   .chatroom
     .title 聊天室
-    .chat-box#chatBox
+    .chat-box#chatBox(@scroll="scrollChatBox")
       .chat-item(v-for="chat in chatList")
         figure.user-pic
           img(:src="chat.url")
@@ -17,12 +17,17 @@
     .insert-box
       figure.user-pic
         img(:src="this.lineData.profilePicUrl")
-      input.insert-txt(type="text" placeholder="新增留言" v-model="userMsg" @keyup.enter="sendMsg")
+      input.insert-txt(type="text" placeholder="新增留言" v-model.trim="userMsg" @keyup.enter="sendMsg")
       .send-btn(@click="sendMsg") 送出
     .disconnected(v-if="isDisconnected")
       p 聊天室斷線，請重新整理
+    .arrow-down(
+      :class="{'show':isScrollUp}"
+      @click="showNewChat"
+    )
+      include ../assets/icon/icon-arrow-d.pug
   .btn-box
-    .main-btn 逛逛SUNRIDER商品
+    a.main-btn(href="https://sunrider.com.tw/" target="_blank") 逛逛SUNRIDER商品
 
 
 </template>
@@ -40,10 +45,16 @@ export default {
       userMsg: "",
       chatList: [],
       isDisconnected: false,
+      isAllowSend: true,
+      chatBoxHeight: 0,
+      chatBoxPst: 0,
     };
   },
   computed: {
     ...mapState(["isLoading", "lineData"]),
+    isScrollUp() {
+      return this.chatBoxPst < this.chatBoxHeight;
+    },
   },
   created() {},
   mounted() {
@@ -52,19 +63,23 @@ export default {
     });
   },
   sockets: {
-    connecting: () => {
+    connecting() {
       console.log("正在連接");
     },
-    connect: () => {
+    connect() {
       console.log("聊天室連線");
     },
-    disconnect: () => {
+    disconnect() {
       console.log("聊天室斷線");
       alert("聊天室斷線，請重新整理");
+      this.isDisconnected = true;
     },
     ChatMessage(data) {
-      console.log(data);
       this.chatList.push(data);
+      this.chatBoxHeight =
+        document.getElementById("chatBox").scrollHeight -
+        document.getElementById("chatBox").offsetHeight;
+      if (this.isScrollUp) return;
       var chatBox = document.getElementById("chatBox");
       setTimeout(() => {
         chatBox.scrollTo({
@@ -90,13 +105,29 @@ export default {
       // }
     },
     sendMsg() {
-      this.$socket.emit("ChatMessage", {
-        lineId: this.lineData.lineId,
-        name: this.lineData.name,
-        url: this.lineData.profilePicUrl,
-        message: this.userMsg,
+      if (this.userMsg != "" && this.isAllowSend) {
+        this.$socket.emit("ChatMessage", {
+          lineId: this.lineData.lineId,
+          name: this.lineData.name,
+          url: this.lineData.profilePicUrl,
+          message: this.userMsg,
+        });
+        this.isAllowSend = false;
+        this.userMsg = "";
+        setTimeout(() => {
+          this.isAllowSend = true;
+        }, 1000);
+      }
+    },
+    scrollChatBox() {
+      this.chatBoxPst = document.getElementById("chatBox").scrollTop;
+    },
+    showNewChat() {
+      var chatBox = document.getElementById("chatBox");
+      document.getElementById("chatBox").scrollTo({
+        top: chatBox.scrollHeight,
+        behavior: "smooth",
       });
-      this.userMsg = "";
     },
   },
   watch: {},
@@ -144,6 +175,7 @@ export default {
       height: 400px
       padding: 0px 40px
       overflow-y: auto
+      position: relative
       .chat-item
         padding: 5px 0
         figure.user-pic
@@ -164,9 +196,13 @@ export default {
             font-size: 0.9rem
             line-height: 28px
             color: $gray-003
+            word-wrap: break-word
     .insert-box
       padding: 20px 40px
+      background-color: #fff
       border-top: 1px solid $gray-002
+      position: relative
+      z-index: 2
       figure.user-pic
         width: 60px
         border-radius: 50%
@@ -200,10 +236,27 @@ export default {
       position: absolute
       top: 0
       left: 0
+      z-index: 3
       p
+        width: 100%
         font-size: 1.2rem
         color: #fff
+        text-align: center
         +pstc5
+    .arrow-down
+      width: 40px
+      fill: $gray-002
+      transition: .3s
+      cursor: pointer
+      position: absolute
+      z-index: 1
+      bottom: 60px
+      left: 50%
+      transform: translateX(-50%)
+      &:hover
+        fill: $gray-003
+      &.show
+        bottom: 100px
   .btn-box
     padding: 50px 0
     text-align: center
@@ -260,6 +313,10 @@ export default {
           padding: 7px 28px
           font-size: 1rem
           border-radius: 20px
+      .arrow-down
+        bottom: 40px
+        &.show
+          bottom: 80px
     .btn-box
       padding: 30px 0
 </style>

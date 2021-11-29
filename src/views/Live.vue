@@ -2,7 +2,7 @@
 .live-wrapper
   .remark
     p 若需更換裝置觀看，請點擊右方“離開觀看”，可於另一裝置以相同票券序號登入觀看。
-    .btn 離開觀看
+    .btn(@click="logoutApi") 離開觀看
   .live-box
     iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
   .chatroom
@@ -26,8 +26,13 @@
       @click="showNewChat"
     )
       include ../assets/icon/icon-arrow-d.pug
-  .btn-box
-    a.main-btn(href="https://sunrider.com.tw/" target="_blank") 逛逛SUNRIDER商品
+  a.btn-box(href="https://sunrider.com.tw/" target="_blank")
+    img(src="@/assets/images/live-kv.jpg")
+  .popup(v-if="showPopup")
+    .container
+      p 您已有登入觀看直播的裝置，請先在原裝置離開觀看，或點擊此按鈕
+      .main-btn.popup-btn(@click="logoutAllApi") 登出其他裝置直接觀看
+
 
 
 </template>
@@ -48,6 +53,7 @@ export default {
       isAllowSend: true,
       chatBoxHeight: 0,
       chatBoxPst: 0,
+      showPopup: false,
     };
   },
   computed: {
@@ -88,14 +94,29 @@ export default {
         });
       }, 1);
     },
+    logout(data) {
+      console.log(data);
+      if (data.token !== this.token) {
+        this.$router.push({ name: "Home" });
+      }
+    },
   },
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["setWatchStatus", "liveLogout", "liveLogoutAll"]),
     init() {
       // if (this.token == "") {
       this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
         .then(() => {
-          this.$socket.connect();
+          return this.setWatchStatus();
+          // this.$socket.connect();
+        })
+        .then((res) => {
+          console.log(res);
+          if (!res.success) {
+            this.showPopup = true;
+          } else {
+            this.$socket.connect();
+          }
         })
         .catch(() => {
           console.log("失敗");
@@ -103,6 +124,27 @@ export default {
       // } else {
       //   this.$socket.connect();
       // }
+    },
+    logoutAllApi() {
+      this.liveLogoutAll()
+        .then((res) => {
+          console.log(res);
+          this.showPopup = false;
+          this.$socket.connect();
+        })
+        .catch(() => {
+          console.log("失敗");
+        });
+    },
+    logoutApi() {
+      this.liveLogout()
+        .then((res) => {
+          console.log(res);
+          this.$router.push({ name: "Home" });
+        })
+        .catch(() => {
+          console.log("失敗");
+        });
     },
     sendMsg() {
       if (this.userMsg != "" && this.isAllowSend) {
@@ -258,12 +300,28 @@ export default {
       &.show
         bottom: 100px
   .btn-box
-    padding: 50px 0
-    text-align: center
-    background-image: url(../assets/images/banner-product.png)
-    background-size: cover
-    background-repeat: no-repeat
-    background-position: center center
+    display: block
+  .popup
+    width: 100%
+    height: 100%
+    background-color: rgba(#000,.5)
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 100
+    .container
+      width: 90%
+      padding: 20px
+      max-width: 350px
+      border-radius: 20px
+      background-color: #fff
+      text-align: center
+      box-sizing: border-box
+      +pstc5
+      p
+        padding-top: 20px
+      .popup-btn
+        padding: 15px 30px
   +rwd(540px)
     .remark
       padding: 20px
@@ -318,5 +376,8 @@ export default {
         &.show
           bottom: 80px
     .btn-box
-      padding: 30px 0
+    .popup
+      .container
+        .popup-btn
+          margin: 15px 0
 </style>

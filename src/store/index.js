@@ -76,6 +76,7 @@ export default new Vuex.Store({
       state.lineData.lineId = profile.userId;
       state.lineData.name = profile.displayName;
       state.lineData.profilePicUrl = profile.pictureUrl;
+      localStorage.setItem("lineData", JSON.stringify(state.lineData));
     },
   },
   actions: {
@@ -150,6 +151,57 @@ export default new Vuex.Store({
                 alert(data.error.message);
               }
             }
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    setWatchStatus(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("user/verification/watch", {
+          lineId: context.state.lineData.lineId,
+        })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            resolve(data);
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    liveLogout(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("user/verification/logout", {
+          lineId: context.state.lineData.lineId,
+        })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            resolve(data);
+          })
+          .catch(({ response }) => {
+            context.commit("SET_LOADING", false);
+            console.log(response);
+            reject();
+          });
+      });
+    },
+    liveLogoutAll(context) {
+      context.commit("SET_LOADING", true);
+      return new Promise((resolve, reject) => {
+        ApiService.post("logout/all", {
+          lineId: context.state.lineData.lineId,
+        })
+          .then(({ data }) => {
+            context.commit("SET_LOADING", false);
+            resolve(data);
           })
           .catch(({ response }) => {
             context.commit("SET_LOADING", false);

@@ -8,7 +8,7 @@
     .timer
       .timer-title 直播倒數
       .timer-box
-        template(v-if="countDownDay!='00'||countDownHour!='00'||countDownMinute!='00'")
+        template(v-if="countDownDay!='00'||countDownHour!='00'||countDownMinute!='00'||countDownTime==0")
           .timer-item
             .number {{countDownDay}}
             .unit 天

@@ -26,7 +26,7 @@
       @click="showNewChat"
     )
       include ../assets/icon/icon-arrow-d.pug
-  a.btn-box(href="https://sunrider.com.tw/" target="_blank")
+  a.btn-box(href="https://shop.sunrider.com/home.asp" target="_blank")
     img(src="@/assets/images/live-kv.jpg")
   .popup(v-if="showPopup")
     .container
@@ -104,26 +104,25 @@ export default {
   methods: {
     ...mapActions(["setWatchStatus", "liveLogout", "liveLogoutAll"]),
     init() {
-      // if (this.token == "") {
-      this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
-        .then(() => {
-          return this.setWatchStatus();
-          // this.$socket.connect();
-        })
-        .then((res) => {
-          console.log(res);
-          if (!res.success) {
-            this.showPopup = true;
-          } else {
-            this.$socket.connect();
-          }
-        })
-        .catch(() => {
-          console.log("失敗");
-        });
-      // } else {
-      //   this.$socket.connect();
-      // }
+      if (this.token == "") {
+        this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
+          .then(() => {
+            return this.setWatchStatus();
+          })
+          .then((res) => {
+            console.log(res);
+            if (!res.success) {
+              this.showPopup = true;
+            } else {
+              this.$socket.connect();
+            }
+          })
+          .catch(() => {
+            console.log("失敗");
+          });
+      } else {
+        this.$socket.connect();
+      }
     },
     logoutAllApi() {
       this.liveLogoutAll()

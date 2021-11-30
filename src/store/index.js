@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem("id_token") || "",
     isLineLogin: false,
-    lineData: {
+    lineData: JSON.parse(localStorage.getItem("lineData")) || {
       lineId: "",
       name: "",
       profilePicUrl: "",

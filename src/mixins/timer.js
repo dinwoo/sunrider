@@ -21,7 +21,7 @@ export default {
       return min < 10 ? "0" + min : String(min);
     },
     countDownSecond() {
-      let sec = Math.floor(this.countDownTime);
+      let sec = Math.floor(this.countDownTime % 60);
       return sec < 10 ? "0" + sec : String(sec);
     },
   },

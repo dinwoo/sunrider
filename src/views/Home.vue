@@ -8,18 +8,20 @@
     .timer
       .timer-title 直播倒數
       .timer-box
-        .timer-item
-          .number {{countDownDay}}
-          .unit 天
-        .timer-item
-          .number {{countDownHour}}
-          .unit 小時
-        .timer-item
-          .number {{countDownMinute}}
-          .unit 分鐘
-        //- .timer-item
-        //-   .number {{countDownSecond}}
-        //-   .unit 秒
+        template(v-if="countDownDay!='00'||countDownHour!='00'||countDownMinute!='00'")
+          .timer-item
+            .number {{countDownDay}}
+            .unit 天
+          .timer-item
+            .number {{countDownHour}}
+            .unit 小時
+          .timer-item
+            .number {{countDownMinute}}
+            .unit 分鐘
+        template(v-else)
+          .timer-item
+            .number {{countDownSecond}}
+            .unit 秒
   section.intro
     .title 活動亮點
     .info

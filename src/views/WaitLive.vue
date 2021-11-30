@@ -8,15 +8,20 @@
     .timer
       .timer-title 直播倒數
       .timer-box
-        .timer-item
-          .number {{countDownDay}}
-          .unit 天
-        .timer-item
-          .number {{countDownHour}}
-          .unit 小時
-        .timer-item
-          .number {{countDownMinute}}
-          .unit 分鐘
+        template(v-if="countDownDay!='00'||countDownHour!='00'||countDownMinute!='00'")
+          .timer-item
+            .number {{countDownDay}}
+            .unit 天
+          .timer-item
+            .number {{countDownHour}}
+            .unit 小時
+          .timer-item
+            .number {{countDownMinute}}
+            .unit 分鐘
+        template(v-else)
+          .timer-item
+            .number {{countDownSecond}}
+            .unit 秒
     .status 直播尚未開放入場
     .remark
       | 將於12/4下午2點開放入場

@@ -26,8 +26,9 @@
       @click="showNewChat"
     )
       include ../assets/icon/icon-arrow-d.pug
-  a.btn-box(href="https://shop.sunrider.com/home.asp" target="_blank")
+  .btn-box
     img(src="@/assets/images/live-kv.jpg")
+    a.kv-btn(href="https://shop.sunrider.com/home.asp" target="_blank") 立即搶購
   .popup(v-if="showPopup")
     .container
       p 您已有登入觀看直播的裝置，請先在原裝置離開觀看，或點擊此按鈕
@@ -299,7 +300,20 @@ export default {
       &.show
         bottom: 100px
   .btn-box
-    display: block
+    position: relative
+    .kv-btn
+      padding: 0.4% 4%
+      font-size: 0.8rem
+      color: $red-001
+      border: 2px solid $red-001
+      border-radius: 10px
+      position: absolute
+      top: 65%
+      left: 40%
+      transition: .3s
+      &:hover
+        color: #fff
+        background-color: $red-001
   .popup
     width: 100%
     height: 100%
@@ -375,6 +389,9 @@ export default {
         &.show
           bottom: 80px
     .btn-box
+      .kv-btn
+        font-size: 0.6rem
+        border-radius: 5px
     .popup
       .container
         .popup-btn

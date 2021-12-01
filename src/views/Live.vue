@@ -97,7 +97,7 @@ export default {
     },
     logout(data) {
       console.log(data);
-      if (data.token !== this.token) {
+      if (data.lineId == this.lineData.lineId && data.token !== this.token) {
         this.$router.push({ name: "Home" });
       }
     },

@@ -98,6 +98,7 @@ export default {
     logout(data) {
       console.log(data);
       if (data.lineId == this.lineData.lineId && data.token !== this.token) {
+        alert("您目前已從其他裝置登入，將為您從此裝置登出。");
         this.$router.push({ name: "Home" });
       }
     },
@@ -105,25 +106,32 @@ export default {
   methods: {
     ...mapActions(["setWatchStatus", "liveLogout", "liveLogoutAll"]),
     init() {
-      if (this.token == "") {
-        this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
-          .then(() => {
-            return this.setWatchStatus();
-          })
-          .then((res) => {
-            console.log(res);
-            if (!res.success) {
-              this.showPopup = true;
-            } else {
-              this.$socket.connect();
-            }
-          })
-          .catch(() => {
-            console.log("失敗");
-          });
-      } else {
-        this.$socket.connect();
-      }
+      // if (this.token == "") {
+      this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
+        .then(() => {
+          this.checkWatchStatus();
+        })
+        .catch(() => {
+          console.log("失敗");
+        });
+      // } else {
+      //   this.checkWatchStatus();
+      //   // this.$socket.connect();
+      // }
+    },
+    checkWatchStatus() {
+      this.setWatchStatus()
+        .then((res) => {
+          console.log(res);
+          if (!res.success) {
+            this.showPopup = true;
+          } else {
+            this.$socket.connect();
+          }
+        })
+        .catch(() => {
+          console.log("失敗");
+        });
     },
     logoutAllApi() {
       this.liveLogoutAll()

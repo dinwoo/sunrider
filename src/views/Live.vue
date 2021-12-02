@@ -1,12 +1,13 @@
 <template lang="pug">
 .live-wrapper
-  .remark
+  .remark#flag(:class="{'fixed':isFixedVideo}")
     p 若需更換裝置觀看，請點擊右方“離開觀看”，可於另一裝置以相同票券序號登入觀看。
     .btn(@click="logoutApi") 離開觀看
-  .live-box
-    iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
-  .chatroom
+  .fixed-box(:class="{'fixed':isFixedVideo}")
+    .live-box
+      iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
     .title 聊天室
+  .chatroom
     .chat-box#chatBox(@scroll="scrollChatBox")
       .chat-item(v-for="chat in chatList")
         figure.user-pic
@@ -17,7 +18,7 @@
     .insert-box
       figure.user-pic
         img(:src="this.lineData.profilePicUrl")
-      input.insert-txt(type="text" placeholder="新增留言" v-model.trim="userMsg" @keyup.enter="sendMsg")
+      input.insert-txt(type="text" placeholder="新增留言" v-model.trim="userMsg" @keypress.enter="sendMsg")
       .send-btn(@click="sendMsg") 送出
     .disconnected(v-if="isDisconnected")
       p 聊天室斷線，請重新整理
@@ -55,6 +56,7 @@ export default {
       chatBoxHeight: 0,
       chatBoxPst: 0,
       showPopup: false,
+      isFixedVideo: false,
     };
   },
   computed: {
@@ -63,10 +65,13 @@ export default {
       return this.chatBoxPst < this.chatBoxHeight;
     },
   },
-  created() {},
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
   mounted() {
     this.$nextTick(() => {
-      this.init();
+      this.$socket.connect();
+      // this.init();
     });
   },
   sockets: {
@@ -86,14 +91,15 @@ export default {
       this.chatBoxHeight =
         document.getElementById("chatBox").scrollHeight -
         document.getElementById("chatBox").offsetHeight;
-      if (this.isScrollUp) return;
-      var chatBox = document.getElementById("chatBox");
-      setTimeout(() => {
-        chatBox.scrollTo({
-          top: chatBox.scrollHeight,
-          behavior: "smooth",
-        });
-      }, 1);
+      if (!this.isScrollUp || data.lineId == this.lineData.lineId) {
+        var chatBox = document.getElementById("chatBox");
+        setTimeout(() => {
+          chatBox.scrollTo({
+            top: chatBox.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 1);
+      }
     },
     logout(data) {
       console.log(data);
@@ -105,6 +111,14 @@ export default {
   },
   methods: {
     ...mapActions(["setWatchStatus", "liveLogout", "liveLogoutAll"]),
+    handleScroll() {
+      this.isFixedVideo =
+        window.scrollY >
+        document.getElementById("flag").offsetTop +
+          document.getElementById("flag").offsetHeight
+          ? true
+          : false;
+    },
     init() {
       // if (this.token == "") {
       this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
@@ -191,7 +205,11 @@ export default {
   .remark
     width: 100%
     padding: 20px 40px
+    margin-bottom: 0
+    background-color: #fff
     box-sizing: border-box
+    &.fixed
+      margin-bottom: 450px
     p
       width: calc(100% - 80px)
       font-size: 0.7rem
@@ -207,22 +225,35 @@ export default {
       cursor: pointer
       text-align: right
       +dib
-  .live-box
+  .fixed-box
     width: 100%
-    height: 370px
-    background-color: #ccc
+    max-width: 768px
     position: relative
-  .chatroom
-    width: 100%
-    position: relative
-    box-sizing: border-box
+    z-index: 101
+    &.fixed
+      position: fixed
+      top: 0px
+      left: 0
+      right: 0
+      margin: auto
+    .live-box
+      width: 100%
+      height: 370px
+      background-color: #ccc
+      position: relative
     .title
       padding: 20px 40px
       font-size: 1.1rem
       line-height: 40px
       color: $gray-001
+      background-color: #fff
+  .chatroom
+    width: 100%
+    position: relative
+    box-sizing: border-box
     .chat-box
-      height: 400px
+      min-height: 180px
+      max-height: 400px
       padding: 0px 40px
       overflow-y: auto
       position: relative
@@ -265,6 +296,7 @@ export default {
         font-size: 0.9rem
         box-sizing: border-box
         border: none
+        border-radius: 0px
         border-bottom: 1px solid $gray-003
         +dib
       .send-btn
@@ -329,7 +361,7 @@ export default {
     position: fixed
     top: 0
     left: 0
-    z-index: 100
+    z-index: 200
     .container
       width: 90%
       padding: 20px
@@ -346,26 +378,24 @@ export default {
   +rwd(540px)
     .remark
       padding: 20px
+      &.fixed
+        margin-bottom: 330px
       p
         width: calc(100% - 60px)
-        // font-size: 0.7rem
         line-height: 18px
       .btn
         width: 60px
-        // font-size: 0.9rem
-        // line-height: 28px
-    .live-box
-      height: 270px
-    .chatroom
+    .fixed-box
+      .live-box
+        height: 270px
       .title
         padding: 20px
-        // font-size: 1.1rem
         line-height: 20px
+    .chatroom
       .chat-box
-        height: 400px
+        min-height: 100px
         padding: 0px 20px
         .chat-item
-          // padding: 5px 0
           figure.user-pic
             width: 40px
             vertical-align: top
@@ -373,12 +403,6 @@ export default {
             width: calc( 100% - 40px )
             padding-left: 10px
             vertical-align: top
-            .name
-              // font-size: 0.8rem
-              // line-height: 28px
-            .chat
-              // font-size: 0.9rem
-              // line-height: 28px
       .insert-box
         padding: 20px
         figure.user-pic

@@ -112,7 +112,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["setWatchStatus", "liveLogout", "liveLogoutAll"]),
+    ...mapActions([
+      "setWatchStatus",
+      "liveLogout",
+      "liveLogoutAll",
+      "checkLiveStatus",
+    ]),
     handleScroll() {
       this.isFixedVideo =
         window.scrollY >
@@ -125,7 +130,8 @@ export default {
       // if (this.token == "") {
       this.lineLogin(process.env.VUE_APP_LIFF_ID_LIVE)
         .then(() => {
-          this.checkWatchStatus();
+          // this.checkWatchStatus();
+          this.checkLiveStatusApi();
         })
         .catch(() => {
           console.log("失敗");
@@ -147,6 +153,24 @@ export default {
         })
         .catch(() => {
           console.log("失敗");
+        });
+    },
+    checkLiveStatusApi() {
+      this.checkLiveStatus()
+        .then((res) => {
+          console.log("success");
+          if (!res.isBinding) {
+            this.$router.push({ name: "Exchange" });
+          } else {
+            this.checkWatchStatus();
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          if (e == "userVerificationError") {
+            this.init();
+          }
+          console.log("fail");
         });
     },
     logoutAllApi() {

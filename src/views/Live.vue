@@ -70,8 +70,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$socket.connect();
-      // this.init();
+      this.init();
     });
   },
   sockets: {
@@ -88,6 +87,9 @@ export default {
     },
     ChatMessage(data) {
       this.chatList.push(data);
+      if (this.chatList.length > 200) {
+        this.chatList.shift();
+      }
       this.chatBoxHeight =
         document.getElementById("chatBox").scrollHeight -
         document.getElementById("chatBox").offsetHeight;

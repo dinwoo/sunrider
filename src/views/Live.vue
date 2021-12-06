@@ -5,7 +5,9 @@
     .btn(@click="logoutApi") 離開觀看
   .fixed-box(:class="{'fixed':isFixedVideo}")
     .live-box
-      iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
+      div(style='padding:56.25% 0 0 0;position:relative;')
+        iframe(src='https://player.vimeo.com/video/652846845?h=c30e89e084&badge=0&autopause=0&player_id=0&app_id=58479' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;' title='SUNRIDER 直播')
+      //- iframe(src='https://vimeo.com/event/1473882/embed/bef220b65c' frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen='' style='position:absolute;top:0;left:0;width:100%;height:100%;')
     .title 聊天室
   .chatroom
     .chat-box#chatBox(@scroll="scrollChatBox")
